@@ -120,7 +120,7 @@ include_directories(SYSTEM ${MAD_THIRD_PARTY}/src/EP_eigen)
 
 # -- Third-party dependencies: Download the Python libraries ---
 
-find_package(PythonInterp REQUIRED)
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 
 set(BUILD_PYTHON_LIBDIR "${CMAKE_BINARY_DIR}/src/lib/python")
 

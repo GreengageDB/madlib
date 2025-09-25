@@ -188,8 +188,8 @@ def get_dbver(con_args, portid):
         elif portid == 'greenplum':
             # for Greenplum the 3rd digit is necessary to differentiate
             # 4.3.5+ from versions < 4.3.5
-            match = re.search("Greenplum[a-zA-Z\s]*(\d+\.\d+\.\d+)", versionStr)
-        return None if match is None else match.group(1)
+            match = re.search("Green(plum|gage)[a-zA-Z\s]*(\d+\.\d+\.\d+)", versionStr)
+        return None if match is None else match.group(2)
     except Exception:
         error_(this, "Failed reading database version", True)
 # ------------------------------------------------------------------------------

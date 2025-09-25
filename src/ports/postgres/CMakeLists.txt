@@ -325,7 +325,7 @@ function(add_extension_support)
     add_custom_command(OUTPUT ${EXTENSION_SQL}
         COMMAND awk 'FNR==1{print \"\"}1' ${EXTENSION_SQL_BASE}
             `cd ${CMAKE_BINARY_DIR}/src/madpack &&
-            python sort-module.py ${MODULE_SQL_POST_FILES}` >${EXTENSION_SQL}
+            python3 sort-module.py ${MODULE_SQL_POST_FILES}` >${EXTENSION_SQL}
         DEPENDS ${MODULE_SQL_POST_FILES} madpackFiles configFiles pythonFiles_${DBMS} madlib_${DBMS}
         COMMENT "Concatenating into ${EXTENSION_SQL}"
     )
