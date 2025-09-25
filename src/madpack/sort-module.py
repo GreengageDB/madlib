@@ -16,7 +16,7 @@ so you need change directory first to run it.
 import re
 import sys
 
-from . import configyml
+import configyml
 
 
 def get_modules_in_order():
