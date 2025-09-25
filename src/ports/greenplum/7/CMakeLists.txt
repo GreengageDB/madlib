@@ -17,3 +17,4 @@
 # under the License.
 #
 add_current_greenplum_version()
+add_extension_support()
