@@ -366,14 +366,11 @@ def _check_db_port(portid):
         row = _internal_run_query("SELECT version() AS version", True)
     except:
         error_(this, "Cannot validate DB platform type", True)
-    if portid == 'greenplum' and row[0]['version'].lower().find('greengage') >= 0:
+    version = row[0]['version'].lower()
+    if portid == 'greenplum' and version.find('green') >= 0:
         return True
-    if row and row[0]['version'].lower().find(portid) >= 0:
-        if portid == 'postgres':
-            if row[0]['version'].lower().find('greenplum') < 0:
-                return True
-        elif portid == 'greenplum':
-            return True
+    if portid == 'postgres' and version.find('postgres') >= 0:
+        return True
     return False
 # ------------------------------------------------------------------------------
 
