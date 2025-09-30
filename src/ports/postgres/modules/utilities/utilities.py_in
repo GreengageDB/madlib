@@ -667,17 +667,17 @@ class __mad_version:
 
     def is_pg(self):
         if (re.search(r"PostgreSQL", self.version) and
-                not re.search(r"Greenplum\s*Database", self.version)):
+                not re.search(r"Green\w+\s*Database", self.version)):
             return True
         return False
 
     def is_gp43(self):
-        if re.search(r"Greenplum\s+Database\s+4\.3", self.version):
+        if re.search(r"Green\w+\s+Database\s+4\.3", self.version):
             return True
         return False
 
     def is_gp7(self):
-        if re.search(r"Greenplum\s+Database\s+7", self.version):
+        if re.search(r"Green\w+\s+Database\s+7", self.version):
             return True
         return False
 
@@ -690,7 +690,7 @@ class __mad_version:
             return False
 
     def is_less_than_gp41(self):
-        regex = re.compile('Greenplum\s+Database\s*([0-9].[0-9])[0-9.]+\s+build', re.IGNORECASE)
+        regex = re.compile('Green\w+\s+Database\s*([0-9].[0-9])[0-9.]+\s+build', re.IGNORECASE)
         version = regex.findall(self.version)
         if len(version) > 0 and float(version[0]) < 4.1:
             return True
@@ -698,7 +698,7 @@ class __mad_version:
             return False
 
     def is_less_than_gp42(self):
-        regex = re.compile('Greenplum\s+Database\s*([0-9].[0-9])[0-9.]+\s+build', re.IGNORECASE)
+        regex = re.compile('Green\w+\s+Database\s*([0-9].[0-9])[0-9.]+\s+build', re.IGNORECASE)
         version = regex.findall(self.version)
         if len(version) > 0 and float(version[0]) < 4.2:
             return True
@@ -731,7 +731,7 @@ class __mad_version:
                                     format is Semantic Versioning.
                                     examples of versions: 1.0, 2.3, 9.3.5
         """
-        regex = re.compile('Greenplum\s+Database\s*([0-9.]+)', re.IGNORECASE)
+        regex = re.compile('Green\w+\s+Database\s*([0-9.]+)', re.IGNORECASE)
         version = regex.findall(self.version)
         if version:
             db_ver = [float(i) for i in version[0].split('.') if i.isdigit()]

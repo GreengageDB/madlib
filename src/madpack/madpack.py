@@ -366,12 +366,11 @@ def _check_db_port(portid):
         row = _internal_run_query("SELECT version() AS version", True)
     except:
         error_(this, "Cannot validate DB platform type", True)
-    if row and row[0]['version'].lower().find(portid) >= 0:
-        if portid == 'postgres':
-            if row[0]['version'].lower().find('greenplum') < 0:
-                return True
-        elif portid == 'greenplum':
-            return True
+    version = row[0]['version'].lower()
+    if portid == 'greenplum' and version.find('green') >= 0:
+        return True
+    if portid == 'postgres' and version.find('postgres') >= 0:
+        return True
     return False
 # ------------------------------------------------------------------------------
 
@@ -775,14 +774,6 @@ def _execute_per_module_unit_test_algo(module, pyfile, cur_tmpdir):
         # runenv = os.environ
         runenv = os.environ.copy()
 
-        # GPDB6 python3 support is provided by an additional package.
-        # To access it, we will have to set environment variables.
-        if dbver == '6':
-            gphome = runenv["GPHOME"]
-            runenv["LD_LIBRARY_PATH"] = "{0}/ext/python3.9/lib:".format(gphome) + runenv["LD_LIBRARY_PATH"]
-            runenv["PATH"] = "{0}/ext/python3.9/bin:".format(gphome) + runenv["PATH"]
-            runenv["PYTHONHOME"] = "{0}/ext/python3.9".format(gphome)
-            runenv["PYTHONPATH"] = "{0}/ext/python3.9/lib".format(gphome)
         retval = subprocess.call(runcmd, env=runenv, stdout=log, stderr=log)
         run_end = datetime.datetime.now()
         milliseconds = round((run_end - run_start).seconds * 1000 +
