@@ -1,6 +1,25 @@
 Please read all sections marked with **. All others are optional and provide
 background information.
 
+MADlib 2.X requires python version 3.9. Other python 3 versions might work as well. Python 2.x is not supported.
+
+MADlib requires the [GNU M4 Unix macro processor](https://www.gnu.org/software/m4/m4.html) which must be present for installation to succeed.
+
+Currently supported database versions: GPDB 6 (with python3 extension), GPDB 7, PostgreSQL 15
+
+The following python libraries are required for their associated modules:
+
+- Installation: pyyaml==6.0.1, pyxb-x==1.2.6.1
+
+- Various: numpy==1.25.2
+
+- Deep Learning: dill==0.3.7, grpcio==1.57.0, protobuf==3.19.4, hyperopt==0.2.5, tensorflow == 2.10, scikit-learn==1.3.0
+
+- XGBoost: pandas==2.0.3, xgboost==1.7.6
+
+- KNN: scipy==1.11.2
+
+- Unit tests: pgsanity
 
 Building and Installing from Source
 ===================================
@@ -36,8 +55,8 @@ Optional:
 
 - For generating a complete installation package (RPM, Package Maker, etc.; see
   below):
-  + PostgreSQL 9.2, 9.3, 9.4
-  + Greenplum 4.2, 4.3
+  + PostgreSQL 15
+  + Greenplum 6, 7
   + All requirements for generating user-level documentation (see above)
 
 ** Build-time Debian package dependencies (optional read):
@@ -45,15 +64,16 @@ Optional:
 
 On Debian based platform you can install the required dependencies (aside from
 Boost, Eigen and PyXB) by running the following command:
-  apt-get install cmake g++ m4 python flex bison doxygen graphviz postgresql-server-dev-all texlive-full poppler-utils
+  apt-get install cmake g++ m4 python3 flex bison doxygen graphviz postgresql-server-dev-all texlive-full poppler-utils
 
 ** Build instructions (required read):
 --------------------------------------
 
+Uninstall libboost to avoid version conflict with MADlib and use the one downloaded at build time.
+
 From the MADlib root directory, execute the following commands:
 
 	./configure
-	cd build/
 	make
 
 To build the user-level documentation using doxygen, run:
@@ -87,7 +107,6 @@ Building an installation package (RPM, Package Maker, ...)
 To create a binary installation package, run the following sequence of commands:
 
     ./configure
-    cd build
     make doc
     make package
 
@@ -95,8 +114,19 @@ To create a complete installation package (for all supported DBMSs, equivalent
 to what is offered on the MADlib web site), make sure that the build process is
 able to locate the DBMS installations. For complete control, run `./configure`
 with arguments `-D<DBMS>_PG_CONFIG=/path/to/pg_config` for all `<DBMS>` in
-`POSTGRESQL_9_2`, `POSTGRESQL_9_3`, `POSTGRESQL_9_4`, `GREENPLUM_4_2`,
-and `GREENPLUM_4_3`.
+`POSTGRESQL_15`, `GREENPLUM_6`, and `GREENPLUM_7`.
+
+Building an extension (for PostgreSQL, Greenplum)
+----------------------------------------------------------
+
+To create a extension, run the following sequence of commands:
+
+    ./configure
+    make extension-install
+
+Then in database:
+
+    CREATE EXTENSION madlib;
 
 Configuration Options:
 ----------------------
@@ -129,8 +159,8 @@ root directory) for more options, after having run `cmake` the first time.
     Prefix when installing MADlib with `make install`. All files will be
     installed within `${CMAKE_INSTALL_PREFIX}`.
 
-- `<DBMS>_PG_CONFIG` (for `<DBMS>` in `POSTGRESQL_9_2`, `POSTGRESQL_9_3`,
-  `POSTGRESQL_9_4`, `GREENPLUM_4_2`, and `GREENPLUM_4_3`. Default: *empty*)
+- `<DBMS>_PG_CONFIG` (for `<DBMS>` in `POSTGRESQL_15`, `GREENPLUM_6`,
+    and `GREENPLUM_7`. Default: *empty*)
 
     Path to `pg_config` of the respective DBMS. If none is set, the build
     script will check if `$(command -v pg_config)` points to a
