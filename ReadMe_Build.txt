@@ -89,6 +89,10 @@ Boost, Eigen and PyXB) by running the following command:
 
 Uninstall libboost to avoid version conflict with MADlib and use the one downloaded at build time.
 
+To install into greenplum binaries directory make
+
+    source $GPHOME/greenplum_path.sh
+
 From the MADlib root directory, execute the following commands:
 
 	./configure
