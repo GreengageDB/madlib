@@ -21,6 +21,24 @@ The following python libraries are required for their associated modules:
 
 - Unit tests: pgsanity
 
+They can be instaled for example by following commands:
+  pip3 install \
+    dill==0.3.7 \
+    grpcio==1.57.0 \
+    hyperopt==0.2.5 \
+    mock \
+    numpy==1.25.2 \
+    pandas==2.0.3 \
+    protobuf==3.19.4 \
+    pypmml \
+    pyxb \
+    pyxb-x==1.2.6.1 \
+    pyyaml==6.0.1 \
+    scikit-learn==1.3.0 \
+    scipy==1.11.2 \
+    tensorflow==2.10 \
+    xgboost==1.7.6
+
 Building and Installing from Source
 ===================================
 
@@ -116,6 +134,10 @@ able to locate the DBMS installations. For complete control, run `./configure`
 with arguments `-D<DBMS>_PG_CONFIG=/path/to/pg_config` for all `<DBMS>` in
 `POSTGRESQL_15`, `GREENPLUM_6`, and `GREENPLUM_7`.
 
+To install MADlib in database use madpack, for example
+
+  madpack -p greenplum -c /madlib install
+
 Building an extension (for PostgreSQL, Greenplum)
 ----------------------------------------------------------
 
@@ -127,6 +149,16 @@ To create a extension, run the following sequence of commands:
 Then in database:
 
     CREATE EXTENSION madlib;
+
+To test MADlib use following options
+
+  madpack -p greenplum -c /madlib install-check
+  madpack -p greenplum -c /madlib dev-check
+  madpack -p greenplum -c /madlib unit-test
+
+or more cpecific
+
+  madpack -p greenplum -c /madlib dev-check -t dbscan
 
 Configuration Options:
 ----------------------
