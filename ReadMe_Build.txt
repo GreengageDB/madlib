@@ -136,7 +136,7 @@ with arguments `-D<DBMS>_PG_CONFIG=/path/to/pg_config` for all `<DBMS>` in
 
 To install MADlib in database use madpack, for example
 
-  madpack -p greenplum -c /madlib install
+    madpack -p greenplum -c /madlib install
 
 Building an extension (for PostgreSQL, Greenplum)
 ----------------------------------------------------------
@@ -152,13 +152,13 @@ Then in database:
 
 To test MADlib use following options
 
-  madpack -p greenplum -c /madlib install-check
-  madpack -p greenplum -c /madlib dev-check
-  madpack -p greenplum -c /madlib unit-test
+    madpack -p greenplum -c /madlib install-check
+    madpack -p greenplum -c /madlib dev-check
+    madpack -p greenplum -c /madlib unit-test
 
 or more cpecific
 
-  madpack -p greenplum -c /madlib dev-check -t dbscan
+    madpack -p greenplum -c /madlib dev-check -t dbscan
 
 Configuration Options:
 ----------------------
