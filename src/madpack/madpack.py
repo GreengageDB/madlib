@@ -1335,7 +1335,7 @@ def set_dynamic_library_path_in_database(dbver_split, madlib_library_path):
                 (portid == 'postgres' and is_rev_gte(dbver_split, get_rev_num('13.0')))):
                 libdir = libdir.decode()
 
-            libdir = libdir.strip().decode()+'/postgresql'
+            libdir = libdir.strip()+'/postgresql'
             paths.append(libdir)
 
         paths.append(madlib_library_path)
