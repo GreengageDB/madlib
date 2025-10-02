@@ -77,13 +77,6 @@ Optional:
   + Greenplum 6, 7
   + All requirements for generating user-level documentation (see above)
 
-** Build-time Debian package dependencies (optional read):
--------------------------------------------
-
-On Debian based platform you can install the required dependencies (aside from
-Boost, Eigen and PyXB) by running the following command:
-  apt-get install cmake g++ m4 python3 flex bison doxygen graphviz postgresql-server-dev-all texlive-full poppler-utils
-
 ** Build instructions (required read):
 --------------------------------------
 
