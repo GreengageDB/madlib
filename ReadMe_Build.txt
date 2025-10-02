@@ -152,7 +152,8 @@ To create a extension, run the following sequence of commands:
 
 Then in database:
 
-    CREATE EXTENSION madlib;
+    CREATE SCHEMA madlib;
+    CREATE EXTENSION madlib SCHEMA madlib;
 
 To test MADlib use following options
 
