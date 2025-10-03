@@ -148,10 +148,19 @@ To create a extension, run the following sequence of commands:
     ./configure
     make extension-install
 
-Then in database:
+To install MADlib in database use SQL, for example
 
     CREATE SCHEMA madlib;
     CREATE EXTENSION madlib SCHEMA madlib;
+
+Testing MADlib
+----------------------------------------------------------
+
+To smoke test that MADlib loaded use commands
+
+     \dx madlib
+
+     SELECT madlib.version();
 
 To test MADlib use following options
 
