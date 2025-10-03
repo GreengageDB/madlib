@@ -3,7 +3,7 @@ background information.
 
 MADlib 2.X requires python version 3.9 or higher. Python 2.x is not supported.
 
-MADlib requires the [GNU M4 Unix macro processor](https://www.gnu.org/software/m4/m4.html) which must be present for installation to succeed.
+MADlib requires the GNU M4 Unix macro processor which must be present for installation to succeed.
 
 Currently supported database versions: GPDB 6 (with python3 extension), GPDB 7, PostgreSQL 15
 
