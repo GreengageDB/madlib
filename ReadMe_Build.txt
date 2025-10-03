@@ -1,7 +1,7 @@
 Please read all sections marked with **. All others are optional and provide
 background information.
 
-MADlib 2.X requires python version 3.9. Other python 3 versions might work as well. Python 2.x is not supported.
+MADlib 2.X requires python version 3.9 or higher. Python 2.x is not supported.
 
 MADlib requires the [GNU M4 Unix macro processor](https://www.gnu.org/software/m4/m4.html) which must be present for installation to succeed.
 
