@@ -21,7 +21,12 @@ The following python libraries are required for their associated modules:
 
 - Unit tests: pgsanity
 
-They can be instaled for example by following commands:
+To build madlib packages can be installed by command
+  pip3 install \
+    pyxb-x==1.2.6.1 \
+    pyyaml==6.0.1
+
+To perform all tests for madlib packages can be installed by command
   pip3 install \
     dill==0.3.7 \
     grpcio==1.57.0 \
