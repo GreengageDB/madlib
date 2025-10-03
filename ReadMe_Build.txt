@@ -3,9 +3,11 @@ background information.
 
 MADlib 2.X requires python version 3.9 or higher. Python 2.x is not supported.
 
-MADlib requires the GNU M4 Unix macro processor which must be present for installation to succeed.
+MADlib requires the GNU M4 Unix macro processor which must be present for
+installation to succeed.
 
-Currently supported database versions: GPDB 6 (with python3 extension), GPDB 7, PostgreSQL 15
+Currently supported database versions: GPDB 6 (with python3 extension), GPDB 7,
+PostgreSQL 15
 
 The following python libraries are required for their associated modules:
 
@@ -13,7 +15,8 @@ The following python libraries are required for their associated modules:
 
 - Various: numpy==1.25.2
 
-- Deep Learning: dill==0.3.7, grpcio==1.57.0, protobuf==3.19.4, hyperopt==0.2.5, tensorflow == 2.10, scikit-learn==1.3.0
+- Deep Learning: dill==0.3.7, grpcio==1.57.0, protobuf==3.19.4,
+    hyperopt==0.2.5, tensorflow == 2.10, scikit-learn==1.3.0
 
 - XGBoost: pandas==2.0.3, xgboost==1.7.6
 
@@ -85,7 +88,8 @@ Optional:
 ** Build instructions (required read):
 --------------------------------------
 
-Uninstall libboost to avoid version conflict with MADlib and use the one downloaded at build time.
+Uninstall libboost to avoid version conflict with MADlib and use the one
+downloaded at build time.
 
 To install into greenplum binaries directory make
 
