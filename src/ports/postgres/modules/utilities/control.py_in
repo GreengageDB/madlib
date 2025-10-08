@@ -105,7 +105,7 @@ class OptimizerControl(ContextDecorator):
         then sets it back to the original value on exit
 
     This context manager accesses two GUCs:
-        optimizer: GUC to control the optimizer used in Greenplum
+        optimizer: GUC to control the optimizer used in Greengage
 
         optimizer_control: Used to check if 'optimizer' GUC can be updated by MADlib.
                             This is assumed to be True if the GUC is not available

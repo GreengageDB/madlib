@@ -88,7 +88,7 @@ This is not the case for GPDB 6.5.0+ where disk space is released during the
 fit multiple query.
 
 @note 2. CUDA GPU memory cannot be released until the process holding it is terminated.
-When a MADlib deep learning function is called with GPUs, Greenplum internally
+When a MADlib deep learning function is called with GPUs, Greengage internally
 creates a process (called a slice) which calls TensorFlow to do the computation.
 This process holds the GPU memory until one of the following two things happen:
 query finishes and user logs out of the Postgres client/session; or,
@@ -1514,7 +1514,7 @@ http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf
 
 [7] Deep Learning, Ian Goodfellow, Yoshua Bengio and Aaron Courville, MIT Press, 2016.
 
-[8] Greenplum Database server configuration parameters https://gpdb.docs.pivotal.io/latest/ref_guide/config_params/guc-list.html
+[8] Greengage Database server configuration parameters https://gpdb.docs.pivotal.io/latest/ref_guide/config_params/guc-list.html
 
 @anchor related
 @par Related Topics

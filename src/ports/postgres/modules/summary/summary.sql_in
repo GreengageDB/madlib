@@ -518,7 +518,7 @@ string should be double-quoted; in this case the input would be '"MyTable"').
 count and most frequent values:
     -  If <em>get_estimates</em> is TRUE then the distinct value computation is
     estimated using Flajolet-Martin. MFV is computed using a
-    fast method that does parallel aggregation in Greenplum Database at the expense
+    fast method that does parallel aggregation in Greengage Database at the expense
     of missing or duplicating some of the most frequent values.
     -  If <em>get_estimates</em> is FALSE then the distinct values are computed
     in a slower but exact method using PostgreSQL COUNT DISTINCT.  MFV is computed using a

@@ -370,7 +370,7 @@ Allocator::internalAllocate(void *inPtr, const size_t inSize) const {
     PG_TRY(); {
         /*
          * We used to respect the request for MC == dbal::AggregateContext here,
-         * but current PostgreSQL/Greenplum versions do not take any advantage
+         * but current PostgreSQL/Greengage versions do not take any advantage
          * of transition states allocated in the aggregate context anyways.
          * They still copy the transition state, whenever the address of the
          * returned state is different from the address of the input state.

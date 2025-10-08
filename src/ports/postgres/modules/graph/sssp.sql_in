@@ -306,7 +306,7 @@ SELECT * FROM out_gr_path ORDER BY grp;
 @anchor notes
 @par Notes
 
-1. On a Greenplum cluster, the edge table should be distributed
+1. On a Greengage cluster, the edge table should be distributed
 by the source vertex id column for better performance.
 
 2. The Bellman-Ford algorithm [1] is used to implement SSSP. This algorithm allows

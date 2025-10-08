@@ -1,11 +1,11 @@
 /* ----------------------------------------------------------------------- *//**
  *
- * @file greenplum/dbconnector/Compatibility.cpp
+ * @file greengage/dbconnector/Compatibility.cpp
  *
  *//* ----------------------------------------------------------------------- */
 
-#ifndef MADLIB_GREENPLUM_COMPATIBILITY_HPP
-#define MADLIB_GREENPLUM_COMPATIBILITY_HPP
+#ifndef MADLIB_GREENGAGE_COMPATIBILITY_HPP
+#define MADLIB_GREENGAGE_COMPATIBILITY_HPP
 
 namespace madlib {
 
@@ -17,7 +17,7 @@ namespace {
 // No need to make these function accessible outside of the postgres namespace.
 
 #ifndef PG_GET_COLLATION
-// Greenplum does not currently have support for collations
+// Greengage does not currently have support for collations
 #define PG_GET_COLLATION()	InvalidOid
 #endif
 
@@ -117,4 +117,4 @@ inline ArrayType* madlib_construct_md_array
 
 } // namespace madlib
 
-#endif // defined(MADLIB_GREENPLUM_COMPATIBILITY_HPP)
+#endif // defined(MADLIB_GREENGAGE_COMPATIBILITY_HPP)

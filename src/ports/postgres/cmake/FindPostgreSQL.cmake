@@ -137,7 +137,7 @@ if(${PKG_NAME}_PG_CONFIG AND ${PKG_NAME}_SERVER_INCLUDE_DIR)
             set(${PKG_NAME}_VERSION_STRING "${${PKG_NAME}_VERSION_MAJOR}.${${PKG_NAME}_VERSION_MINOR}.${${PKG_NAME}_VERSION_PATCH}")
         else(${PKG_NAME}_VERSION_NUM MATCHES "^[0-9]+$")
             # Macro with version number was not found. We use the version string
-            # macro as a fallback. Example when this is used: Greenplum < 4.1
+            # macro as a fallback. Example when this is used: GPDB < 4.1
             # does not have a GP_VERSION_NUM macro, but only GP_VERSION.
 
 			# Get VERSION

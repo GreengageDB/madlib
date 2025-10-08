@@ -266,7 +266,7 @@ can be expensive.</dd>
 @note
 Note that the auto k-means algorithms require the NumPy python package to be
 installed on the system since the elbow method uses the NumPy gradient function <a href="#kmeans-lit-2">[2]</a>.
-For Greenplum clusters, installing NumPy only on the
+For Greengage clusters, installing NumPy only on the
 host machine of the master segment will be sufficient.  The suggested
 installation method is: <em>pip install numpy --user</em>
 </dl>
@@ -1271,7 +1271,7 @@ BEGIN
         min_frac_reassigned, fn_dist);
 
     -- Perform acutal computation.
-    -- Unfortunately, Greenplum and PostgreSQL <= 8.2 do not have conversion
+    -- Unfortunately, Greengage and PostgreSQL <= 8.2 do not have conversion
     -- operators from regclass to varchar/text.
     theIteration := MADLIB_SCHEMA.internal_compute_kmeans(
             '_madlib_kmeans_args',
@@ -1426,7 +1426,7 @@ BEGIN
       END IF;
     END IF;
 
-    -- Unfortunately, Greenplum and PostgreSQL <= 8.2 do not have conversion
+    -- Unfortunately, Greengage and PostgreSQL <= 8.2 do not have conversion
     -- operators from regclass to varchar/text.
     class_rel_source := rel_source;
 
@@ -1755,7 +1755,7 @@ BEGIN
     EXECUTE 'SET client_min_messages TO ' || oldClientMinMessages;
 
     -- Perform acutal computation.
-    -- Unfortunately, Greenplum and PostgreSQL <= 8.2 do not have conversion
+    -- Unfortunately, Greengage and PostgreSQL <= 8.2 do not have conversion
     -- operators from regclass to varchar/text.
     class_rel_source := rel_source;
     theIteration := (

@@ -42,7 +42,7 @@ models designed in XGBoost [1].
 
 XGBoost is an optimized distributed gradient boosting library. The MADlib
 implementation is designed to train multiple models with different parameters
-to achieve parallelism on Greenplum systems (PostgreSQL is also supported.)
+to achieve parallelism on Greengage systems (PostgreSQL is also supported.)
 
 The main use case supported is classification. Regression is not currently
 supported.

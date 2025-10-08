@@ -724,7 +724,7 @@ class __mad_version:
             return False
 
     def is_gp_version_less_than(self, compare_version):
-        """ Return True if self is a Greenplum database and self.version
+        """ Return True if self is a Greengage database and self.version
         is less than compare_version
 
         @param compare_version: str, String form of the comparison version. Expected

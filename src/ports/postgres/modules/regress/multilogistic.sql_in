@@ -875,9 +875,9 @@ BEGIN
             $1, $2, $3, numcategories, $4, $5, $6, $7)
     );
 
-    -- Because of Greenplum bug MPP-10050, we have to use dynamic SQL (using
+    -- Because of GPDB bug MPP-10050, we have to use dynamic SQL (using
     -- EXECUTE) in the following
-    -- Because of Greenplum bug MPP-6731, we have to hide the tuple-returning
+    -- Because of GPDB bug MPP-6731, we have to hide the tuple-returning
     -- function in a subquery
     EXECUTE
         $sql$

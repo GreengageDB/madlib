@@ -53,7 +53,7 @@ Keras can run on top of different backends and the one that is currently
 supported by MADlib is TensorFlow [2].  The implementation
 in MADlib is designed to train
 a single model across multiple segments (workers)
-in Greenplum database.  (PostgreSQL is also supported.)
+in Greengage database.  (PostgreSQL is also supported.)
 Alternatively, to train multiple models at the same time for model
 architecture search or hyperparameter tuning, you can
 use the methods in <a href="group__grp__model__selection.html">Train Multiple Models</a>.
@@ -88,7 +88,7 @@ functions.  To ensure consistency, please use tensorflow.keras objects (models, 
 instead of importing Keras and using its objects.
 
 @note CUDA GPU memory cannot be released until the process holding it is terminated.
-When a MADlib deep learning function is called with GPUs, Greenplum internally
+When a MADlib deep learning function is called with GPUs, Greengage internally
 creates a process (called a slice) which calls TensorFlow to do the computation.
 This process holds the GPU memory until one of the following two things happen:
 query finishes and user logs out of the Postgres client/session; or,
@@ -1817,7 +1817,7 @@ http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf
 Yuhao Zhang, and Arun Kumar, Technical Report, Computer Science and Engineering, University of California,
 San Diego https://adalabucsd.github.io/papers/TR_2019_Cerebro.pdf.
 
-[8] Greenplum Database server configuration parameters https://gpdb.docs.pivotal.io/latest/ref_guide/config_params/guc-list.html
+[8] Greengage Database server configuration parameters https://gpdb.docs.pivotal.io/latest/ref_guide/config_params/guc-list.html
 
 @anchor related
 @par Related Topics

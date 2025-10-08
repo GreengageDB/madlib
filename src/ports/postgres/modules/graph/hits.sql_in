@@ -363,7 +363,7 @@ SELECT * FROM hits_out_summary order by user_id;
 @anchor notes
 @par Notes
 
-1. On a Greenplum cluster, the edge table should be distributed
+1. On a Greengage cluster, the edge table should be distributed
 by the source vertex id column for better performance.
 
 2. This implementation of the HITS algorithm supports multigraph and each duplicated edge is considered

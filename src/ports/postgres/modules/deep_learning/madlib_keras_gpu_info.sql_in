@@ -159,7 +159,7 @@ SELECT * FROM host_gpu_mapping_nvidia ORDER BY hostname, gpu_descr;
 (14 rows)
 </pre>
 
--# To get a fuller picture at the segment level, combine with the Greenplum catalog
+-# To get a fuller picture at the segment level, combine with the Greengage catalog
 table 'gp_segment_configuration' which contains information about
 segment instance configuration [2].  Here is an example of this table
 filtering out master and mirrors:
@@ -227,7 +227,7 @@ SELECT * FROM segments_to_use ORDER BY hostname, dbid;
 
 [1] Nvidia Systems Management Interface (nvidia-smi) https://developer.nvidia.com/nvidia-system-management-interface
 
-[2] Greenplum 'gp_segment_configuration' table https://gpdb.docs.pivotal.io/latest/ref_guide/system_catalogs/gp_segment_configuration.html
+[2] Greengage 'gp_segment_configuration' table https://gpdb.docs.pivotal.io/latest/ref_guide/system_catalogs/gp_segment_configuration.html
 
 @anchor related
 @par Related Topics

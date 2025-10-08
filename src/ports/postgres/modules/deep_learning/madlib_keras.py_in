@@ -1185,7 +1185,7 @@ on top of different backends and the one that is currently
 supported by MADlib is TensorFlow.  The implementation
 in MADlib is distributed and designed to train
 a single large model across multiple segments (workers)
-in a Greenplum database.  PostgreSQL is also supported.
+in a Greengage database.  PostgreSQL is also supported.
 
 For more details on function usage:
     SELECT {schema_madlib}.madlib_keras_fit('usage')

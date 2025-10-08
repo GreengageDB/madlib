@@ -71,19 +71,12 @@ function(determine_target_versions OUT_VERSIONS)
         find_package(${PORT})
         if(${PORT_UC}_FOUND)
             set(VERSION "${${PORT_UC}_VERSION_MAJOR}.${${PORT_UC}_VERSION_MINOR}")
-            if(${PORT_UC} STREQUAL "GREENPLUM")
+            if(${PORT_UC} STREQUAL "GREENGAGE")
                 # Starting GPDB 5.0, semantic versioning will be followed,
                 # implying we only need 1 folder for same major versions
                 if(${${PORT_UC}_VERSION_MAJOR} EQUAL 5 OR
                        ${${PORT_UC}_VERSION_MAJOR} GREATER 5)
                     set(VERSION ${${PORT_UC}_VERSION_MAJOR})
-
-                # Due to the ABI incompatibility between 4.3.4 and 4.3.5,
-                # MADlib treat 4.3.5+ as DB version that is different from 4.3
-                elseif(${${PORT_UC}_VERSION_MAJOR} EQUAL 4 AND
-                        ${${PORT_UC}_VERSION_MINOR} EQUAL 3 AND
-                        ${${PORT_UC}_VERSION_PATCH} GREATER 4)
-                    set(VERSION "4.3ORCA")
                 endif()
             elseif(${PORT_UC} STREQUAL "POSTGRESQL" AND
                     (${${PORT_UC}_VERSION_MAJOR} EQUAL 10 OR
