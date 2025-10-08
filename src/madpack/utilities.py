@@ -34,6 +34,7 @@ else:
 # Import MADlib python modules
 import configyml
 
+_error = False
 # Some read-only variables
 this = os.path.basename(sys.argv[0])    # name of this script
 
@@ -51,6 +52,8 @@ def error_(src_name, msg, stop=False):
         @param msg error message
         @param stop program exit flag
     """
+    global _error
+    _error = True
     # Print to stdout
     print(("{0}: ERROR : {1}".format(src_name, msg)))
     # stack trace is not printed
