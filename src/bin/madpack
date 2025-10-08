@@ -2,7 +2,7 @@
 
 # This script does the following:
 # 0. If indicated by environent variables, look for DBMS-supplied Python
-#    installation. E.g., Greenplum supplies its own Python, and its currently
+#    installation. E.g., Greengage supplies its own Python, and its currently
 #    the first choice to use because it guarantees that python, pygresql
 #    (currently needed to connect to a GP database), and libpg all have the same
 #    architecture.

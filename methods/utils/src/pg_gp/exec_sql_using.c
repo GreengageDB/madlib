@@ -11,7 +11,7 @@
 #include <utils/lsyscache.h>
 #include <utils/syscache.h>
 
-// On Greenplum 4.2.0, spi.h indirectly includes <emcconnect/api.h>. However,
+// On GPDB 4.2.0, spi.h indirectly includes <emcconnect/api.h>. However,
 // this file is not shipped with GPDB 4.2 (MPP-15620). We undefine
 // USE_CONNECTEMC here as a workaround.
 #if defined(GP_VERSION_NUM) && GP_VERSION_NUM == 40200

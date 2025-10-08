@@ -97,7 +97,7 @@ pip3 install --no-cache-dir \
     xgboost==1.7.6
 
 case "$MADLIB_PORT" in
-    greenplum)
+    greengage)
         source gpdb_src/concourse/scripts/common.bash
         install_and_configure_gpdb
         gpdb_src/concourse/scripts/setup_gpadmin_user.bash

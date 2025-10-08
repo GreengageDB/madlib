@@ -65,7 +65,7 @@ portid_list = []
 for port in ports:
     portid_list.append(port)
 
-SUPPORTED_PORTS = ('postgres', 'greenplum')
+SUPPORTED_PORTS = ('postgres', 'greengage')
 
 # Global variables
 portid = None       # Target port ID (eg: pg90, gp40)
@@ -131,7 +131,7 @@ def _get_relative_maddir(maddir, port):
     # Check outside $GPHOME if there is a symlink to this absolute path
     # os.pardir is equivalent to ..
     # os.path.normpath removes the extraneous .. from that path
-    rel_gphome = os.path.normpath(os.path.join(abs_gphome, os.pardir, 'greenplum-db'))
+    rel_gphome = os.path.normpath(os.path.join(abs_gphome, os.pardir, 'greengage-db'))
     if (os.path.islink(rel_gphome) and
             os.path.realpath(rel_gphome) == os.path.realpath(abs_gphome)):
         # if the relative link exists and is pointing to current location
@@ -368,7 +368,7 @@ def _check_db_port(portid):
     except:
         error_(this, "Cannot validate DB platform type", True)
     version = row[0]['version'].lower()
-    if portid == 'greenplum' and version.find('green') >= 0:
+    if portid == 'greengage' and version.find('green') >= 0:
         return True
     if portid == 'postgres' and version.find('postgres') >= 0:
         return True
@@ -926,9 +926,9 @@ def parse_arguments():
         formatter_class=argparse.RawTextHelpFormatter,
         epilog="""Example:
 
-  $ madpack install -s madlib -p greenplum -c gpadmin@mdw:5432/testdb
+  $ madpack install -s madlib -p greengage -c gpadmin@mdw:5432/testdb
 
-  This will install MADlib objects into a Greenplum database called TESTDB
+  This will install MADlib objects into a Greengage database called TESTDB
   running on server MDW:5432. Installer will try to login as GPADMIN
   and will prompt for password. The target schema will be MADLIB.
 
@@ -966,7 +966,7 @@ def parse_arguments():
         '-c', '--conn', metavar='CONNSTR', nargs=1, dest='connstr', default=None,
         help="""Connection string of the following syntax:
                    [user[/password]@][host][:port][/database]
-                 If not provided default values will be derived for PostgreSQL and Greenplum:
+                 If not provided default values will be derived for PostgreSQL and Greengage:
                  - user: PGUSER or USER env variable or OS username
                  - pass: PGPASSWORD env variable or runtime prompt
                  - host: PGHOST env variable or 'localhost'
@@ -1231,7 +1231,7 @@ def create_install_madlib_sqlfile(args, madpack_cmd):
 
 def get_madlib_function_drop_str(schema):
 
-    if ((portid == 'greenplum' and is_rev_gte(get_rev_num(dbver), get_rev_num('7.0'))) or
+    if ((portid == 'greengage' and is_rev_gte(get_rev_num(dbver), get_rev_num('7.0'))) or
         (portid == 'postgres')):
         case_str = """
         CASE p.prokind
@@ -1332,7 +1332,7 @@ def set_dynamic_library_path_in_database(dbver_split, madlib_library_path):
         if '$libdir' in paths:
             paths.remove('$libdir')
             libdir = subprocess.check_output(['pg_config','--libdir'])
-            if ((portid == 'greenplum' and is_rev_gte(dbver_split, get_rev_num('7.0'))) or
+            if ((portid == 'greengage' and is_rev_gte(dbver_split, get_rev_num('7.0'))) or
                 (portid == 'postgres' and is_rev_gte(dbver_split, get_rev_num('13.0')))):
                 libdir = libdir.decode()
 
@@ -1342,7 +1342,7 @@ def set_dynamic_library_path_in_database(dbver_split, madlib_library_path):
         paths.append(madlib_library_path)
         dynamic_library_path = ':'.join(paths)
 
-        if portid == 'greenplum':
+        if portid == 'greengage':
             if is_rev_gte(dbver_split, get_rev_num('6.0')):
                 ret = os.system('gpconfig -c dynamic_library_path -v \'{0}\''.format(dynamic_library_path))
             else:
@@ -1460,7 +1460,7 @@ def main(argv):
                   True)
 
             dbver_split = get_rev_num(dbver)
-            if portid == 'greenplum':
+            if portid == 'greengage':
                 if is_rev_gte(dbver_split, get_rev_num('5.0')):
                     # GPDB (starting 5.0) uses semantic versioning. Hence, only
                     # need first digit for major version.

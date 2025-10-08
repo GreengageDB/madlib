@@ -115,7 +115,7 @@ FLOATING_POINT_LITERAL ([[:digit:]]+"."[[:digit:]]*|"."[[:digit:]]+){EXPONENT}?|
     }
 }
 
-    /* Since not all of Greenplum and PostgreSQL allow the following
+    /* Since not all of Greengage and PostgreSQL allow the following
      * - labeling arguments of aggregate functions,
      * - default arguments
      * we will simply uncomment C style comments in argument lists when they

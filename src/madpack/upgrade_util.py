@@ -382,7 +382,7 @@ class ChangeHandler(UpgradeBase):
         for opc, li in list(self._udoc.items()):
             for e in li:
                 changed_opcs.add((opc, e['index']))
-        gte_gpdb5 = (self._portid == 'greenplum' and
+        gte_gpdb5 = (self._portid == 'greengage' and
                      is_rev_gte(get_rev_num(self._dbver), get_rev_num('5.0')))
         if (self._portid == 'postgres' or gte_gpdb5):
             method_col = 'opcmethod'
@@ -498,7 +498,7 @@ class ViewDependency(UpgradeBase):
         """
         @brief  Detect direct view dependencies on MADlib UDFs/UDAs
         """
-        if ((self._portid == 'greenplum' and is_rev_gte(get_rev_num(self._dbver), get_rev_num('7.0'))) or
+        if ((self._portid == 'greengage' and is_rev_gte(get_rev_num(self._dbver), get_rev_num('7.0'))) or
             (self._portid == 'postgres')):
             proisagg_wrapper = "p.prokind = 'a'"
         else:
@@ -987,7 +987,7 @@ class ScriptCleaner(UpgradeBase):
         """
         @brief Get the existing UDOCs in the current version
         """
-        gte_gpdb5 = (self._portid == 'greenplum' and
+        gte_gpdb5 = (self._portid == 'greengage' and
                      is_rev_gte(get_rev_num(self._dbver), get_rev_num('5.0')))
         if (self._portid == 'postgres' or gte_gpdb5):
             method_col = 'opcmethod'
@@ -1032,7 +1032,7 @@ class ScriptCleaner(UpgradeBase):
         """
         # See _get_function_info for explanations.
 
-        if ((self._portid == 'greenplum' and is_rev_gte(get_rev_num(self._dbver), get_rev_num('7.0'))) or
+        if ((self._portid == 'greengage' and is_rev_gte(get_rev_num(self._dbver), get_rev_num('7.0'))) or
             (self._portid == 'postgres')):
             proisagg_wrapper = "p.prokind = 'a'"
         else:

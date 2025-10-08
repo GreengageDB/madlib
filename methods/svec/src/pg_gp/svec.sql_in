@@ -38,7 +38,7 @@ and/or disk, so saving those zeros is often  worthwhile. There are also
 many computations that can benefit from skipping over the zeros.
 
 Consider, for example, the following
-array of doubles stored as a Postgres/Greenplum "float8[]" data type:
+array of doubles stored as a Postgres/Greengage "float8[]" data type:
 
 <pre class="example">
 '{0, 33,...40,000 zeros..., 12, 22 }'\::float8[]

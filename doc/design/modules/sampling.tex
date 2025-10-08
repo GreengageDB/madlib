@@ -146,7 +146,7 @@ Algorithm~\ref{alg:WeightedSample} is implemented as the user-defined aggregate 
 	\end{tabularx}
 \end{center}
 %
-While it would be desirable to define a user-defined aggregate with a first argument of generic type, this would require a generic transition type (see below). Unfortunately, this is currently not supported in PostgreSQL and Greenplum. However, the internal C++ accumulator type is a generic template class, i.e., only the SQL interface contains redundancies.
+While it would be desirable to define a user-defined aggregate with a first argument of generic type, this would require a generic transition type (see below). Unfortunately, this is currently not supported in PostgreSQL and Greengage. However, the internal C++ accumulator type is a generic template class, i.e., only the SQL interface contains redundancies.
 
 \paragraph{Output}
 

@@ -188,8 +188,8 @@ def get_dbver(con_args, portid):
         versionStr = run_query("SELECT pg_catalog.version();", con_args, True)[0]['version']
         if portid == 'postgres':
             match = re.search("PostgreSQL[a-zA-Z\s]*(\d+\.\d+)", versionStr)
-        elif portid == 'greenplum':
-            # for Greenplum the 3rd digit is necessary to differentiate
+        elif portid == 'greengage':
+            # for Greengage the 3rd digit is necessary to differentiate
             # 4.3.5+ from versions < 4.3.5
             match = re.search("Green\w+[a-zA-Z\s]*(\d+\.\d+\.\d+)", versionStr)
         return None if match is None else match.group(1)

@@ -16,4 +16,5 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-add_current_greenplum_version()
+add_current_greengage_version()
+add_extension_support()

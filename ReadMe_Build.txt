@@ -82,7 +82,7 @@ Optional:
 - For generating a complete installation package (RPM, Package Maker, etc.; see
   below):
   + PostgreSQL 15
-  + Greenplum 6, 7
+  + Greengage 6, 7
   + All requirements for generating user-level documentation (see above)
 
 ** Build instructions (required read):
@@ -91,9 +91,9 @@ Optional:
 Uninstall libboost to avoid version conflict with MADlib and use the one
 downloaded at build time.
 
-To install into greenplum binaries directory make
+To install into greengage binaries directory make
 
-    source $GPHOME/greenplum_path.sh
+    source $GPHOME/greengage_path.sh
 
 From the MADlib root directory, execute the following commands:
 
@@ -138,13 +138,13 @@ To create a complete installation package (for all supported DBMSs, equivalent
 to what is offered on the MADlib web site), make sure that the build process is
 able to locate the DBMS installations. For complete control, run `./configure`
 with arguments `-D<DBMS>_PG_CONFIG=/path/to/pg_config` for all `<DBMS>` in
-`POSTGRESQL_15`, `GREENPLUM_6`, and `GREENPLUM_7`.
+`POSTGRESQL_15`, `GREENGAGE_6`, and `GREENGAGE_7`.
 
 To install MADlib in database use madpack, for example
 
-    madpack -p greenplum -c /madlib install
+    madpack -p greengage -c /madlib install
 
-Building an extension (for PostgreSQL, Greenplum)
+Building an extension (for PostgreSQL, Greengage)
 ----------------------------------------------------------
 
 To create a extension, run the following sequence of commands:
@@ -168,13 +168,13 @@ To smoke test that MADlib loaded use commands
 
 To test MADlib use following options
 
-    madpack -p greenplum -c /madlib install-check
-    madpack -p greenplum -c /madlib dev-check
-    madpack -p greenplum -c /madlib unit-test
+    madpack -p greengage -c /madlib install-check
+    madpack -p greengage -c /madlib dev-check
+    madpack -p greengage -c /madlib unit-test
 
 or more cpecific
 
-    madpack -p greenplum -c /madlib dev-check -t dbscan
+    madpack -p greengage -c /madlib dev-check -t dbscan
 
 Configuration Options:
 ----------------------
@@ -207,15 +207,15 @@ root directory) for more options, after having run `cmake` the first time.
     Prefix when installing MADlib with `make install`. All files will be
     installed within `${CMAKE_INSTALL_PREFIX}`.
 
-- `<DBMS>_PG_CONFIG` (for `<DBMS>` in `POSTGRESQL_15`, `GREENPLUM_6`,
-    and `GREENPLUM_7`. Default: *empty*)
+- `<DBMS>_PG_CONFIG` (for `<DBMS>` in `POSTGRESQL_15`, `GREENGAGE_6`,
+    and `GREENGAGE_7`. Default: *empty*)
 
     Path to `pg_config` of the respective DBMS. If none is set, the build
     script will check if `$(command -v pg_config)` points to a
-    PostgreSQL/Greenplum installation.
+    PostgreSQL/Greengage installation.
 
-    Note: If no `GREENPLUM<...>_PG_CONFIG` is specified, the build script will
-    look for `/usr/local/greenplum-db/bin/pg_config`.
+    Note: If no `GREENGAGE<...>_PG_CONFIG` is specified, the build script will
+    look for `/usr/local/greengage-db/bin/pg_config`.
 
 - `LIBSTDCXX_COMPAT` (default: *empty*)
 
