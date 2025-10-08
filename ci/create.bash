@@ -5,6 +5,9 @@ set -exo pipefail
 case "$MADLIB_PORT" in
     greengage)
         source /usr/local/greengage-db-devel/greengage_path.sh
+        pushd gpdb_src/gpAux/gpdemo
+        make create-demo-cluster WITH_MIRRORS=true
+        popd
         source gpdb_src/gpAux/gpdemo/gpdemo-env.sh
     ;;
     postgres)
