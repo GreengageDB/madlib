@@ -5,10 +5,6 @@ set -exo pipefail
 case "$MADLIB_PORT" in
     postgres)
         export DEBIAN_FRONTEND=noninteractive
-        groupadd --system --gid 999 postgres
-        useradd --system --uid 999 --home /var/lib/postgresql --shell /bin/bash --gid postgres postgres
-        install -d -m 0755 -o postgres -g postgres /var/lib/postgresql
-        install -d -m 0700 -o postgres -g postgres /var/lib/postgresql/data
         apt-get update
         apt-get install -y \
             bison \
@@ -101,6 +97,12 @@ case "$MADLIB_PORT" in
         source gpdb_src/concourse/scripts/common.bash
         install_and_configure_gpdb
         gpdb_src/concourse/scripts/setup_gpadmin_user.bash
+    ;;
+    postgres)
+        groupadd --system --gid 999 postgres
+        useradd --system --uid 999 --home /var/lib/postgresql --shell /bin/bash --gid postgres postgres
+        install -d -m 0755 -o postgres -g postgres /var/lib/postgresql
+        install -d -m 0700 -o postgres -g postgres /var/lib/postgresql/data
     ;;
 esac
 
