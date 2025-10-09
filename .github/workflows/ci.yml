@@ -1,0 +1,89 @@
+name: MADlib
+
+on:
+  push:
+    branches: [ madlib2-master ]
+  pull_request:
+    branches: [ madlib2-master ]
+
+# Concurrency control to cancel previous runs on new push to same PR/branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true  # Automatically cancel any previous runs for the same group
+
+jobs:
+  job:
+    name: ${{ matrix.name }} ${{ matrix.version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Greengage
+            version: 6
+            image: ghcr.io/greengagedb/greengage/ggdb6_ubuntu:latest
+            madlib_port: greenplum
+            user: gpadmin
+            setup_working_directory: /home/gpadmin
+            test_working_directory: /home/gpadmin
+            log: /home/gpadmin/gpdb_src/gpAux/gpdemo/datadirs/*/*/pg_log
+          - name: Greengage
+            version: 7
+            image: ghcr.io/greengagedb/greengage/ggdb7_ubuntu:latest
+            madlib_port: greenplum
+            user: gpadmin
+            setup_working_directory: /home/gpadmin
+            test_working_directory: /home/gpadmin
+            log: /home/gpadmin/gpdb_src/gpAux/gpdemo/datadirs/*/*/log
+          - name: PostgreSQL
+            version: 15
+            image: ubuntu:22.04
+            madlib_port: postgres
+            user: postgres
+            setup_working_directory: /home
+            test_working_directory: /var/lib/postgresql
+            log: /var/lib/postgresql/data/log
+    container:
+      image: ${{ matrix.image }}
+      options:
+        --sysctl "kernel.sem=500 1024000 200 4096"
+    env:
+      HOME: ${{ matrix.test_working_directory }}
+      MADLIB_PORT: ${{ matrix.madlib_port }}
+      USER: ${{ matrix.user }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install
+        run: "$GITHUB_WORKSPACE/ci/install.bash"
+        working-directory: ${{ matrix.setup_working_directory }}
+
+      - name: Create
+        run: su -p ${{ matrix.user }} "$GITHUB_WORKSPACE/ci/create.bash"
+        working-directory: ${{ matrix.test_working_directory }}
+
+      - name: Install-check
+        if: ${{ !cancelled() }}
+        run: su -p ${{ matrix.user }} "$GITHUB_WORKSPACE/ci/test.bash" install-check
+        working-directory: ${{ matrix.test_working_directory }}
+
+      - name: Dev-check
+        if: ${{ !cancelled() }}
+        run: su -p ${{ matrix.user }} "$GITHUB_WORKSPACE/ci/test.bash" dev-check
+        working-directory: ${{ matrix.test_working_directory }}
+
+      - name: Unit-test
+        if: ${{ !cancelled() }}
+        run: su -p ${{ matrix.user }} "$GITHUB_WORKSPACE/ci/test.bash" unit-test
+        working-directory: ${{ matrix.test_working_directory }}
+
+      - name: Artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.madlib_port }}_${{ matrix.version }}
+          path: |
+            /tmp/madlib.*
+            ${{ matrix.log }}

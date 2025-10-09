@@ -14,6 +14,7 @@ import tempfile
 import shutil
 
 import upgrade_util as uu
+import utilities
 from utilities import _write_to_file
 from utilities import error_
 from utilities import get_dbver
@@ -1575,3 +1576,6 @@ if __name__ == "__main__":
         shutil.rmtree(tmpdir)
     else:
         print("INFO: Log files saved in " + tmpdir)
+
+    if utilities._error:
+        exit(1)
