@@ -189,8 +189,6 @@ def get_dbver(con_args, portid):
         if portid == 'postgres':
             match = re.search("PostgreSQL[a-zA-Z\s]*(\d+\.\d+)", versionStr)
         elif portid == 'greengage':
-            # for Greengage the 3rd digit is necessary to differentiate
-            # 4.3.5+ from versions < 4.3.5
             match = re.search("Green\w+[a-zA-Z\s]*(\d+\.\d+\.\d+)", versionStr)
         return None if match is None else match.group(1)
     except Exception:
