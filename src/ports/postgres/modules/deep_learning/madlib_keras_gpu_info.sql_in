@@ -227,7 +227,7 @@ SELECT * FROM segments_to_use ORDER BY hostname, dbid;
 
 [1] Nvidia Systems Management Interface (nvidia-smi) https://developer.nvidia.com/nvidia-system-management-interface
 
-[2] Greengage 'gp_segment_configuration' table https://gpdb.docs.pivotal.io/latest/ref_guide/system_catalogs/gp_segment_configuration.html
+[2] Greengage 'gp_segment_configuration' table https://greengagedb.org/en/docs-gg/current/enable_mirroring.html#gp_segment_configuration-table
 
 @anchor related
 @par Related Topics
