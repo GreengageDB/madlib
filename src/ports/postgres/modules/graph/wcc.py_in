@@ -237,7 +237,7 @@ def wcc(schema_madlib, vertex_table, vertex_id, edge_table, edge_args,
     comma_grouping_cols = '' if not grouping_cols else ',' + grouping_cols
 
     if not is_platform_pg():
-        # In Greenplum, to avoid redistribution of data when in later queries,
+        # In Greengage, to avoid redistribution of data when in later queries,
         # edge_table is duplicated by creating a temporary table distributed
         # on dest column
         plpy.execute(""" CREATE TABLE {edge_inverse} AS
@@ -344,9 +344,9 @@ def wcc(schema_madlib, vertex_table, vertex_id, edge_table, edge_args,
     """
 
     # We combine the sql statements as much as possible to reduce the number of
-    # subtransactions we create. Postgres and Greenplum has a limit of 64 for
+    # subtransactions we create. Postgres and Greengage has a limit of 64 for
     # cached subtx and each plpy.execute create one.
-    # Postgres and Greenplum 5 do not like creating a table and using it in the
+    # Postgres and GPDB 5 do not like creating a table and using it in the
     # same plpy.execute so we have too keep them seperate for this step but the
     # loop is combined for all platforms.
     if is_platform_gp6_or_up():
@@ -457,7 +457,7 @@ def wcc(schema_madlib, vertex_table, vertex_id, edge_table, edge_args,
             iteration_counter += 1
 
     if not is_platform_pg():
-        # Drop intermediate table created for Greenplum
+        # Drop intermediate table created for Greengage
         plpy.execute("DROP TABLE IF EXISTS {0}".format(edge_inverse))
 
     if vertex_type != "BIGINT[]" and vertex_id_in and vertex_id_in != 'id':

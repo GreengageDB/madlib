@@ -318,14 +318,14 @@ of Cormode/Muthukrishnan,
 mfvsketch_top_histogram( col_name,
                          n )
 </pre>
-- and a "quick and dirty" version that can do parallel aggregation in Greenplum
+- and a "quick and dirty" version that can do parallel aggregation in Greengage
 at the expense of missing some of the most frequent values.
 <pre class="syntax">
 mfvsketch_quick_histogram( col_name,
                            n )
 </pre>
 
-In PostgreSQL the two UDAs are identical. In Greenplum, the quick version should
+In PostgreSQL the two UDAs are identical. In Greengage, the quick version should
 produce good results unless the number of values requested is small,
 or the distribution is flat.
 
@@ -627,7 +627,7 @@ CREATE AGGREGATE MADLIB_SCHEMA.mfvsketch_top_histogram(/*+ column */ anyelement,
 DROP AGGREGATE IF EXISTS MADLIB_SCHEMA.mfvsketch_quick_histogram(anyelement, int4);
 /**
  * @brief On Postgres it works the same way as \ref mfvsketch_top_histogram but,
- * in Greenplum it does parallel aggregation to provide a "quick and dirty" answer.
+ * in Greengage it does parallel aggregation to provide a "quick and dirty" answer.
 */
 CREATE AGGREGATE MADLIB_SCHEMA.mfvsketch_quick_histogram(/*+ column */ anyelement, /*+ number_of_buckets */ int4)
 (

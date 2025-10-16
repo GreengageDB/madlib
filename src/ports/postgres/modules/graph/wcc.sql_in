@@ -139,10 +139,10 @@ the wcc process.
 
 </dl>
 
-@note On a Greenplum cluster, the edge table should be distributed
+@note On a Greengage cluster, the edge table should be distributed
 by the source vertex id column for better performance.
 In addition, the user should note that this
-function creates a duplicate of the edge table (on Greenplum cluster) for
+function creates a duplicate of the edge table (on Greengage cluster) for
 better performance.
 
 @anchor rlcc
@@ -601,7 +601,7 @@ SELECT * FROM wcc_multicol_out ORDER BY user_id_major, user_id_minor, component_
 @anchor notes
 @par Notes
 
-1. On a Greenplum cluster, the edge table should be distributed
+1. On a Greengage cluster, the edge table should be distributed
 by the source vertex id column for better performance.
 
 */

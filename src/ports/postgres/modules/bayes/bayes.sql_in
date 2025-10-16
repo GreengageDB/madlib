@@ -203,15 +203,15 @@ for data containing numeric attributes as well.
 
 @anchor notes
 @par Implementation Notes
-- The probabilities computed on the platforms of PostgreSQL and Greenplum
+- The probabilities computed on the platforms of PostgreSQL and Greengage
 database have a small difference due to the nature of floating point
 computation. Usually this is not important. However, if a data point has
 \f[
 P(C=c_i \mid A) \approx P(C=c_j \mid A)
 \f]
 for two classes, this data point might be classified into diferent classes on
-PostgreSQL and Greenplum. This leads to the differences in classifications
-on PostgreSQL and Greenplum for some data sets, but this should not
+PostgreSQL and Greengage. This leads to the differences in classifications
+on PostgreSQL and Greengage for some data sets, but this should not
 affect the quality of the results.
 
 - When two classes have equal and highest probability among all classes,

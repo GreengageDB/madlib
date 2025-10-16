@@ -274,7 +274,7 @@ Datum __cmsketch_base64_final(PG_FUNCTION_ARGS)
 }
 
 /*!
- * Greenplum "prefunc" to combine sketches from multiple machines
+ * Greengage "prefunc" to combine sketches from multiple machines
  */
 PG_FUNCTION_INFO_V1(__cmsketch_merge);
 Datum __cmsketch_merge(PG_FUNCTION_ARGS)

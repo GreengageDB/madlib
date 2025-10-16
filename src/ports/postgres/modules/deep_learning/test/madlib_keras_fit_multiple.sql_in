@@ -33,7 +33,7 @@ m4_changequote(<!,!>)
 --
 --  Instead, we just want to unit test different python functions in the FitMultiple class.
 --  However, most of the important behavior we need to test requires access to an actual
---  Greenplum database... mostly, we want to make sure that the models hop around to the
+--  Greengage database... mostly, we want to make sure that the models hop around to the
 --  right segments in the right order.  Therefore, the unit tests are here, as a part of
 --  dev-check. we mock fit_transition() and some validation functions in FitMultiple, but
 --  do NOT mock plpy, since most of the code we want to test is embedded SQL and needs to

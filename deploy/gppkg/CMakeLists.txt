@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Packaging for Greenplum's gppkg
+# Packaging for Greengage's gppkg
 # ------------------------------------------------------------------------------
 
 set(MADLIB_GPPKG_RELEASE_NUMBER 1)
@@ -18,7 +18,7 @@ set(MADLIB_GPPKG_RPM_FILE_NAME
 find_program(
     GPPKG_BINARY
     gppkg
-    PATH /usr/local/greenplum-db/bin
+    PATH /usr/local/greengage-db/bin
     DOC "Path to gppkg"
 )
 find_program(
@@ -34,7 +34,7 @@ add_custom_target(gppkg
     COMMENT "Generating all gppkg installers"
 )
 
-# We now run generated files, one for each Greenplum version
+# We now run generated files, one for each Greengage version
 file(GLOB GPPKG_VERSIONS "${CMAKE_CURRENT_BINARY_DIR}/*_gppkg.cmake")
 foreach(GPPKG_VERSION ${GPPKG_VERSIONS})
     include("${GPPKG_VERSION}")

@@ -283,7 +283,7 @@ CREATE AGGREGATE MADLIB_SCHEMA.lmf_igd_step(
         /*+ scale_factor */     DOUBLE PRECISION) (
     STYPE=DOUBLE PRECISION[],
     SFUNC=MADLIB_SCHEMA.lmf_igd_transition,
-    -- m4_ifdef(`__GREENPLUM__',`PREFUNC=MADLIB_SCHEMA.lmf_igd_merge,')
+    -- m4_ifdef(`__GREENGAGE__',`PREFUNC=MADLIB_SCHEMA.lmf_igd_merge,')
     FINALFUNC=MADLIB_SCHEMA.lmf_igd_final,
     INITCOND='{0,0,0,0,0,0,0,0,0}'
 );
@@ -399,7 +399,7 @@ BEGIN
     EXECUTE 'SET client_min_messages TO ' || old_messages;
 
     -- Perform acutal computation.
-    -- Unfortunately, Greenplum and PostgreSQL <= 8.2 do not have conversion
+    -- Unfortunately, Greengage and PostgreSQL <= 8.2 do not have conversion
     -- operators from regclass to varchar/text.
     iteration_run := MADLIB_SCHEMA.internal_compute_lmf_igd(
             '_madlib_lmf_igd_args', '_madlib_lmf_igd_state',

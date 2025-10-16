@@ -147,7 +147,7 @@ class AutoMLHyperband(KerasAutoML):
     through adaptive resource allocation, successive halving (SHA), and early stopping.
 
     This class showcases a novel hyperband implementation by executing the hyperband rounds 'diagonally'
-    to evaluate multiple configurations together and leverage the compute power of MPP databases such as Greenplum.
+    to evaluate multiple configurations together and leverage the compute power of MPP databases such as Greengage.
 
     This automl method inherits qualities from the automl class.
     """

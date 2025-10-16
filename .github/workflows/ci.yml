@@ -22,7 +22,7 @@ jobs:
           - name: Greengage
             version: 6
             image: ghcr.io/greengagedb/greengage/ggdb6_ubuntu:latest
-            madlib_port: greenplum
+            madlib_port: greengage
             user: gpadmin
             setup_working_directory: /home/gpadmin
             test_working_directory: /home/gpadmin
@@ -30,7 +30,7 @@ jobs:
           - name: Greengage
             version: 7
             image: ghcr.io/greengagedb/greengage/ggdb7_ubuntu:latest
-            madlib_port: greenplum
+            madlib_port: greengage
             user: gpadmin
             setup_working_directory: /home/gpadmin
             test_working_directory: /home/gpadmin

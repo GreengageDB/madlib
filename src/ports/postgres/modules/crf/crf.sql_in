@@ -729,7 +729,7 @@ m4_ifdef(`USE_COMPATIBLE_ARRAY',
 `MADLIB_SCHEMA.array_union(anycompatiblearray) (SFUNC = array_cat, STYPE = anycompatiblearray);',
 `MADLIB_SCHEMA.array_union(anyarray) (SFUNC = array_cat, STYPE = anyarray);'
 )
--- We only need to document the last one (unfortunately, in Greenplum we have to
+-- We only need to document the last one (unfortunately, in Greengage we have to
 -- use function overloading instead of default arguments).
 CREATE OR REPLACE FUNCTION MADLIB_SCHEMA.compute_lincrf(
     "source" TEXT,

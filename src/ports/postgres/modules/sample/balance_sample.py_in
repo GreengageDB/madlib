@@ -560,7 +560,7 @@ def balance_sample(schema_madlib, source_table, output_table, class_col,
                                                      allow_duplicates=False,
                                                      lower_case_names=False)
 
-        # GREENPLUM 4.3.X does not support bool-to-text cast which is relied
+        # GPDB 4.3.X does not support bool-to-text cast which is relied
         #  upon for class_col in multiple queries. The explicit_bool_to_text
         #  function wraps the class_col with a MADlib function that provides the
         #  cast just for those platforms that don't provide the cast. For

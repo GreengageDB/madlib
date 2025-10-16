@@ -322,7 +322,7 @@ SELECT madlib.minibatch_preprocessor('iris_data',         -- Source table
 </pre>
 For small datasets like in this example, buffer size is mainly
 determined by the number of segments in the database.
-This example is run on a Greenplum database with 2 segments,
+This example is run on a Greengage database with 2 segments,
 so there are 2 rows with a buffer size of 26.
 For PostgresSQL, there would be only one row with a buffer
 size of 52 since it is a single node database.

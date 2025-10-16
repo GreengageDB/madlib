@@ -112,7 +112,7 @@ The inner loop which calculates the gradient and log-likelihood for each documen
 Simple model averaging are used to merge two states.
 A merge function is not explicitly added to the pseudocode for simplicity.
 The finalization function invokes the L-BFGS convex solver to get a new solution. L-BFGS is sequential, but very fast.
-Experiments show that the speed-up ration approaches the number of segments configured in the Greenplum database.
+Experiments show that the speed-up ration approaches the number of segments configured in the Greengage database.
 
 \paragraph{Convergence criterion.}
 Usually, the following conditions are combined by AND, OR, or NOT.
@@ -551,7 +551,7 @@ The dictionary constains all the tokens and the number of times they appear in t
 The Viterbi algorithm \cite{DBLP:journals/scholarpedia/Viterbi09} is the popular algorithm to find the top-k most likely labelings of a document for CRF models.
 For the tasks in natural language processing domain, it is sufficient to only generate the best label sequence.
 We chose to use a SQL clause to drive the inference over all documents.
-In Greenplum, Viterbi can be run in parallel over different subsets of the document on a multi-core machine.
+In Greengage, Viterbi can be run in parallel over different subsets of the document on a multi-core machine.
 
 \subsection{Parallel CRF Inference}
 The $vcrf\_top\_label$ is implemented sequentially and each function call will finish labeling of one document.

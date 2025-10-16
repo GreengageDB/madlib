@@ -407,7 +407,7 @@ class GroupIterationController:
 
     def get_state_size(self):
         """
-            Return the size of the state. Greenplum does not have the
+            Return the size of the state. Greengage does not have the
             array_length() method yet, hence this work-around.
         """
         if self.is_state_type_bytea8:

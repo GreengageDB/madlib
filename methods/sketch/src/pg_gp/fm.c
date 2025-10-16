@@ -444,7 +444,7 @@ Datum __fmsketch_count_distinct_c(bytea *bitmaps)
 PG_FUNCTION_INFO_V1(__fmsketch_merge);
 
 /*!
- * Greenplum "prefunc": a function to merge 2 transvals computed at different machines.
+ * Greengage "prefunc": a function to merge 2 transvals computed at different machines.
  * For simple FM, this is trivial: just OR together the two arrays of bitmaps.
  * But we have to deal with cases where one or both transval is SMALL: i.e. it
  * holds a sortasort, not an FM sketch.

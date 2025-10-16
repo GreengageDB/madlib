@@ -490,7 +490,7 @@ int cnt_cmp_desc(const void *i, const void *j)
 
 
 /*!
- * Greenplum "prefunc" to combine sketches from multiple machines.
+ * Greengage "prefunc" to combine sketches from multiple machines.
  * See notes at top of file regarding the heuristic nature of this approach.
  */
 PG_FUNCTION_INFO_V1(__mfvsketch_merge);

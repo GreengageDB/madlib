@@ -261,7 +261,7 @@ This generates all association rules that satisfy the specified minimum
       </tr>
     </table>
 
-  On Greenplum Database, the table is distributed by the \c ruleid column.
+  On Greengage Database, the table is distributed by the \c ruleid column.
 
   The \c pre and \c post columns are the itemsets of left and right hand sides of the
   association rule respectively. The \c support, \c confidence, \c lift, and

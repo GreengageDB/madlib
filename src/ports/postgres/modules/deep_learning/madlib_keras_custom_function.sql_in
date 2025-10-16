@@ -48,7 +48,7 @@ could theoretically allow execution of any untrusted Python code.
 Regular users with MADlib USAGE permission can use existing custom 
 functions but cannot create new ones or update existing ones.
 See references [1] and [2] for information 
-on privileges in Greenplum and PostgreSQL. </em>
+on privileges in Greengage and PostgreSQL. </em>
 
 This function loads custom Python functions
 into a table for use by deep learning algorithms.

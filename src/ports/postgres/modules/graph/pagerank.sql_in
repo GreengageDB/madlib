@@ -427,7 +427,7 @@ SELECT * FROM pagerank_multicol_out_summary;
 @anchor notes
 @par Notes
 
-1. On a Greenplum cluster, the edge table should be distributed
+1. On a Greengage cluster, the edge table should be distributed
 by the source vertex id column for better performance.
 
 @anchor literature

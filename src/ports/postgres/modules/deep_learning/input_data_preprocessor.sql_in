@@ -475,7 +475,7 @@ SELECT madlib.training_preprocessor_dl('image_data',         -- Source table
                                         );
 </pre>
 For small datasets like in this example, buffer size is mainly determined
-by the number of segments in the database. For a Greenplum database with 2 segments,
+by the number of segments in the database. For a Greengage database with 2 segments,
 there will be 2 rows with a buffer size of 26. For PostgresSQL, there would
 be only one row with a buffer size of 52 since it is a single node database.
 For larger data sets, other factors go into computing buffers size besides
@@ -863,7 +863,7 @@ __internal_gpu_config__ | {0,1}
 [1] "Neural Networks for Machine Learning", Lectures 6a and 6b on mini-batch gradient descent,
 Geoffrey Hinton with Nitish Srivastava and Kevin Swersky, http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf
 
-[2] Greenplum 'gp_segment_configuration' table https://gpdb.docs.pivotal.io/latest/ref_guide/system_catalogs/gp_segment_configuration.html
+[2] Greengage 'gp_segment_configuration' table https://greengagedb.org/en/docs-gg/current/enable_mirroring.html#gp_segment_configuration-table
 
 @anchor related
 @par Related Topics

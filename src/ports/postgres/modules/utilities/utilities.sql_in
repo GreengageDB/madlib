@@ -428,7 +428,7 @@ $$m4_ifdef(`__HAS_FUNCTION_PROPERTIES__', `CONTAINS SQL', `');
  *
  * @return The text format string for the value.
  *
- * @note Greenplum doesn't support bit/boolean to text casting.
+ * @note Greengage doesn't support bit/boolean to text casting.
  *
  */
 CREATE OR REPLACE FUNCTION MADLIB_SCHEMA.__to_char(val anyelement)

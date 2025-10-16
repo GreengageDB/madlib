@@ -193,10 +193,10 @@ namespace dbconnector {
 namespace postgres {
 
 /**
- * @brief Convert a run-length encoded Greenplum sparse vector to an Eigen
+ * @brief Convert a run-length encoded Greengage sparse vector to an Eigen
  *     sparse vector
  *
- * @param inVec A Greenplum sparse vector
+ * @param inVec A Greengage sparse vector
  * @returns Eigen sparse vector
  */
 inline
@@ -227,11 +227,11 @@ LegacySparseVectorToSparseColumnVector(SvecType* inVec) {
 
 
 /**
- * @brief Convert an Eigen sparse vector to a run-length encoded Greenplum
+ * @brief Convert an Eigen sparse vector to a run-length encoded Greengage
  *     sparse vector
  *
  * @param inVec An Eigen sparse vector
- * @returns Greenplum sparse vector
+ * @returns Greengage sparse vector
  *
  * @internal We implement this function here and not in the legacy sparse-vector
  *     code because the indices of type \c Index, as defined by Eigen.

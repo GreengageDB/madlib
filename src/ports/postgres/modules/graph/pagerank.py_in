@@ -122,7 +122,7 @@ def pagerank(schema_madlib, vertex_table, vertex_id, edge_table, edge_args, out_
         @param personalization_vertices
     """
     # We noticed the current implementation is noticeably slower when orca=ON
-    # on Greenplum 5, so that we temporarily turn if off to run pagerank.
+    # on GPDB 5, so that we temporarily turn if off to run pagerank.
     with OptimizerControl(False):
 
         with MinWarning('warning'):

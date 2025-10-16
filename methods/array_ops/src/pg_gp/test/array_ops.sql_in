@@ -313,7 +313,7 @@ FROM (
 ) t3;
 
 -- TESTING array_to_bytea() function - skip for gpdb 4.3
-m4_ifelse(__PORT__ __DBMS_VERSION_MAJOR__, <!GREENPLUM 4!>,,
+m4_ifelse(__PORT__ __DBMS_VERSION_MAJOR__, <!GREENGAGE 4!>,,
 <!
 
 -- create input table ( n = 3 x 5 x 7 dim SMALLINT[], r =  2 x 3 x 5 dim REAL[] )

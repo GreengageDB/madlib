@@ -162,7 +162,7 @@ function(add_${PORT_LC}_library IN_PORT_VERSION)
                 COMPILE_FLAGS "-fno-strict-aliasing")
         endif(CMAKE_COMPILER_IS_GNUCC)
 
-        # errOmitLocation is used in legacy C code, but it is Greenplum only
+        # errOmitLocation is used in legacy C code, but it is Greengage only
         # we define it so that it has no effect for PostgreSQL.
         set_source_files_properties(${LEGACY_C_FILES} PROPERTIES
             COMPILE_DEFINITIONS "NO_PG_MODULE_MAGIC;errOmitLocation=(int)"

@@ -379,37 +379,12 @@
               <exclude>src/patch/CMakeLists.txt</exclude>
               <exclude>src/patch/PyXB.sh</exclude>
               <exclude>src/ports/CMakeLists.txt</exclude>
-              <exclude>src/ports/greenplum/4.1/CMakeLists.txt</exclude>
-              <exclude>src/ports/greenplum/4.1/patch/CMakeLists.txt</exclude>
-              <exclude>src/ports/greenplum/4.1/patch/Versions_4_1_0_to_4_1_1.sh.in</exclude>
-              <exclude>src/ports/greenplum/4.2/CMakeLists.txt</exclude>
-              <exclude>src/ports/greenplum/4.3/CMakeLists.txt</exclude>
-              <exclude>src/ports/greenplum/4.3ORCA/CMakeLists.txt</exclude>
-              <exclude>src/ports/greenplum/cmake/FindGreenplum.cmake</exclude>
-              <exclude>src/ports/greenplum/cmake/FindGreenplum_4_0.cmake</exclude>
-              <exclude>src/ports/greenplum/cmake/FindGreenplum_4_1.cmake</exclude>
-              <exclude>src/ports/greenplum/cmake/FindGreenplum_4_2.cmake</exclude>
-              <exclude>src/ports/greenplum/cmake/FindGreenplum_4_3.cmake</exclude>
-              <exclude>src/ports/greenplum/cmake/FindGreenplum_4_3ORCA.cmake</exclude>
-              <exclude>src/ports/greenplum/cmake/GreenplumUtils.cmake</exclude>
-              <exclude>src/ports/greenplum/CMakeLists.txt</exclude>
-              <exclude>src/ports/greenplum/dbconnector/Compatibility.hpp</exclude>
-              <exclude>src/ports/greenplum/dbconnector/dbconnector.hpp</exclude>
-              <exclude>src/ports/postgres/8.4/CMakeLists.txt</exclude>
-              <exclude>src/ports/postgres/8.4/patch/CMakeLists.txt</exclude>
-              <exclude>src/ports/postgres/8.4/patch/Versions_8_4_and_below.sh.in</exclude>
-              <exclude>src/ports/postgres/9.0/CMakeLists.txt</exclude>
-              <exclude>src/ports/postgres/9.1/CMakeLists.txt</exclude>
-              <exclude>src/ports/postgres/9.2/CMakeLists.txt</exclude>
-              <exclude>src/ports/postgres/9.3/CMakeLists.txt</exclude>
-              <exclude>src/ports/postgres/9.4/CMakeLists.txt</exclude>
+              <exclude>src/ports/greengage/cmake/FindGreengage.cmake</exclude>
+              <exclude>src/ports/greengage/cmake/GreengageUtils.cmake</exclude>
+              <exclude>src/ports/greengage/CMakeLists.txt</exclude>
+              <exclude>src/ports/greengage/dbconnector/Compatibility.hpp</exclude>
+              <exclude>src/ports/greengage/dbconnector/dbconnector.hpp</exclude>
               <exclude>src/ports/postgres/cmake/FindPostgreSQL.cmake</exclude>
-              <exclude>src/ports/postgres/cmake/FindPostgreSQL_8_4.cmake</exclude>
-              <exclude>src/ports/postgres/cmake/FindPostgreSQL_9_0.cmake</exclude>
-              <exclude>src/ports/postgres/cmake/FindPostgreSQL_9_1.cmake</exclude>
-              <exclude>src/ports/postgres/cmake/FindPostgreSQL_9_2.cmake</exclude>
-              <exclude>src/ports/postgres/cmake/FindPostgreSQL_9_3.cmake</exclude>
-              <exclude>src/ports/postgres/cmake/FindPostgreSQL_9_4.cmake</exclude>
               <exclude>src/ports/postgres/cmake/PostgreSQLUtils.cmake</exclude>
               <exclude>src/ports/postgres/CMakeLists.txt</exclude>
               <exclude>src/ports/postgres/dbconnector/Allocator_impl.hpp</exclude>
