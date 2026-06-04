@@ -1,0 +1,84 @@
+# FILE:    ci/Dockerfile.ubuntu
+# CONTEXT: Build madlib deb-package on Ubuntu <OS_VERSION> for Greengage <GREENGAGE_VERSION>
+# PURPOSE: Multi-stage Docker build for MADlib
+
+# hadolint global ignore=DL3008
+
+ARG OS_VERSION=22.04
+ARG GREENGAGE_VERSION=6
+ARG GREENGAGE_REPO=https://greengagedb.org
+
+FROM ubuntu:${OS_VERSION} AS base
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN useradd -md /home/gpadmin gpadmin
+WORKDIR /home/gpadmin
+
+ARG GREENGAGE_VERSION \
+    GREENGAGE_REPO \
+    DEBIAN_FRONTEND=noninteractive
+
+RUN set -eux; \
+    apt-get update -q; \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        curl \
+        ca-certificates \
+        gnupg \
+        m4 \
+        python3 \
+        python3-dev \
+        python3-pip; \
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/* /var/log/*
+
+RUN set -eux; \
+    OS_VER=$(. /etc/os-release && echo "$VERSION_ID"); \
+    mkdir -p /etc/apt/keyrings; \
+    curl -fsSL "${GREENGAGE_REPO}/repositories/gpg" \
+        | gpg --dearmor -o /etc/apt/keyrings/greengagedb.gpg; \
+    echo "deb [signed-by=/etc/apt/keyrings/greengagedb.gpg] ${GREENGAGE_REPO}/repositories/ubuntu/${OS_VER}/x86_64 greengagedb main" \
+        > /etc/apt/sources.list.d/greengagedb.list; \
+    apt-get update -q; \
+    apt-get install -y --no-install-recommends "greengage${GREENGAGE_VERSION}"; \
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN pip3 install --break-system-packages --no-cache-dir \
+    pyxb-x==1.2.6.1 \
+    pyyaml==6.0.1 \
+    || pip3 install --no-cache-dir \
+    pyxb-x==1.2.6.1 \
+    pyyaml==6.0.1
+
+FROM base AS build
+
+ARG GREENGAGE_VERSION
+
+RUN mkdir deb-packages && chown gpadmin:gpadmin deb-packages
+# CMakeLists.txt creates symlinks at CMAKE_INSTALL_PREFIX via EXECUTE_PROCESS(ln),
+# which bypasses DESTDIR and requires the real path to exist during packaging.
+RUN mkdir -p /usr/local/madlib
+COPY --chown=gpadmin:gpadmin . src/
+
+USER gpadmin
+
+RUN set -eux; \
+    source "/opt/greengagedb/greengage${GREENGAGE_VERSION}/greengage_path.sh"; \
+    PG_CONFIG="/opt/greengagedb/greengage${GREENGAGE_VERSION}/bin/pg_config"; \
+    cd src; \
+    ./configure \
+        "-DGREENGAGE_${GREENGAGE_VERSION}_PG_CONFIG=${PG_CONFIG}" \
+        "-DMADLIB_DEPENDS=greengage${GREENGAGE_VERSION}"; \
+    make -j"$(nproc)" package; \
+    cp build/*.deb /home/gpadmin/deb-packages/
+
+FROM base AS code
+COPY --chown=gpadmin:gpadmin . src/
+RUN rm -rf src/.git*
+
+FROM base AS clean
+USER gpadmin
+
+COPY --from=code  /home/gpadmin/src          src
+COPY --from=build /home/gpadmin/deb-packages deb-packages
