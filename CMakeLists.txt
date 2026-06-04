@@ -261,6 +261,25 @@ execute_process(
 if(NOT _RESULT EQUAL 0)
     set(MADLIB_GIT_REVISION "unknown")
 endif(NOT _RESULT EQUAL 0)
+
+# MADLIB_PACKAGE_VERSION is the distribution/package version (used in the .deb
+# filename and CPACK_PACKAGE_VERSION). It is independent of MADLIB_VERSION_STRING,
+# which tracks the extension schema version and controls install paths.
+# Prefer the nearest git tag (v-prefixed or plain); fall back to Version.yml so
+# local builds without tags still work. Pass -DMADLIB_PACKAGE_VERSION= to override.
+if(NOT DEFINED MADLIB_PACKAGE_VERSION)
+    execute_process(
+        COMMAND git describe --tags --abbrev=0
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE _MADLIB_GIT_TAG
+        ERROR_QUIET
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    if(_MADLIB_GIT_TAG)
+        string(REGEX REPLACE "^[^0-9]+" "" MADLIB_PACKAGE_VERSION "${_MADLIB_GIT_TAG}")
+    else()
+        set(MADLIB_PACKAGE_VERSION "${MADLIB_VERSION_STRING}")
+    endif()
+endif()
 if(CMAKE_COMPILER_IS_GNUCC)
     set(MADLIB_C_COMPILER "gcc ${GNUCC_VERSION}")
 else(CMAKE_COMPILER_IS_GNUCC)

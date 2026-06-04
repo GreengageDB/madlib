@@ -1,0 +1,77 @@
+# .github/workflows/build_and_package.yml
+name: Build and Package DEB
+
+on:
+  push:
+    branches: [madlib2-master]
+    tags: ['**']
+  pull_request:
+    branches: [madlib2-master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - target_os: ubuntu
+          target_os_version: '22.04'
+          greengage_version: '6'
+          extensions: 'deb ddeb'
+        - target_os: ubuntu
+          target_os_version: '24.04'
+          greengage_version: '6'
+          extensions: 'deb ddeb'
+        # - target_os: ubuntu
+        #   target_os_version: '22.04'
+        #   greengage_version: '7'
+        #   extensions: 'deb ddeb'
+        # - target_os: ubuntu
+        #   target_os_version: '24.04'
+        #   greengage_version: '7'
+        #   extensions: 'deb ddeb'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ci/Dockerfile.${{ matrix.target_os }}
+          push: false
+          tags: madlib:${{ matrix.target_os }}${{ matrix.target_os_version }}-greengage${{ matrix.greengage_version }}
+          build-args: |
+            OS_VERSION=${{ matrix.target_os_version }}
+            GREENGAGE_VERSION=${{ matrix.greengage_version }}
+            GREENGAGE_REPO=https://storage.yandexcloud.net/greengage-repo
+
+      - name: Extract artifacts
+        run: |
+          mkdir -p artifacts
+          docker create --name temp-container madlib:${{ matrix.target_os }}${{ matrix.target_os_version }}-greengage${{ matrix.greengage_version }}
+          docker cp temp-container:/home/gpadmin/deb-packages artifacts/
+          docker rm temp-container
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v7
+        with:
+          name: deb-packages-madlib${{ matrix.greengage_version }}-${{ matrix.target_os }}${{ matrix.target_os_version }}
+          path: artifacts/deb-packages/
+
+      - name: Test deb package installation
+        uses: greengagedb/greengage-ci/.github/actions/tests/install/deb@v44
+        with:
+          test_docker: '${{ matrix.target_os }}:${{ matrix.target_os_version }}'
+          artifact_name: 'deb-packages-madlib${{ matrix.greengage_version }}-${{ matrix.target_os }}${{ matrix.target_os_version }}'
+          add_greengage_repo: true
+          greengage_repo_url: "https://storage.yandexcloud.net/greengage-repo"
+          verify_commands: dpkg -l madlib*

@@ -77,7 +77,9 @@ set(CPACK_RPM_USER_BINARY_SPECFILE ${CMAKE_CURRENT_SOURCE_DIR}/madlib.spec.in)
 
 # -- Set settings for specific package generators ------------------------------
 
-add_subdirectory(PackageMaker)
+if(APPLE)
+    add_subdirectory(PackageMaker)
+endif()
 add_subdirectory(PGXN)
 add_subdirectory(RPM)
 add_subdirectory(DEB)
@@ -96,11 +98,21 @@ elseif(IS_REDHAT)
   set(CPACK_MONOLITHIC_INSTALL 1)
 elseif(IS_DEBIAN)
   if(NOT CREATE_RPM_FOR_UBUNTU)
-    set(CPACK_PACKAGE_FILE_NAME
-      "madlib${_PACKAGE_SUFFIX}-${MADLIB_VERSION_STRING}-${CMAKE_SYSTEM_NAME}")
+    # Use standard Debian naming: <name>_<version>_<arch>.deb
+    # CPACK_DEBIAN_PACKAGE_ARCHITECTURE is set by add_subdirectory(DEB) above.
+    # CPACK_DEBIAN_PACKAGE_NAME is also set there (madlib6/madlib7 when GREENGAGE_MAJOR_VERSION is given).
+    if(GREENGAGE_MAJOR_VERSION)
+        set(CPACK_PACKAGE_FILE_NAME
+            "madlib${GREENGAGE_MAJOR_VERSION}_${MADLIB_PACKAGE_VERSION}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
+    else()
+        set(CPACK_PACKAGE_FILE_NAME
+            "madlib_${MADLIB_PACKAGE_VERSION}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
+    endif()
   endif(NOT CREATE_RPM_FOR_UBUNTU)
   set(CPACK_PACKAGE_VERSION ${MADLIB_VERSION_STRING})
-  set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/DEB/config;${CMAKE_CURRENT_SOURCE_DIR}/DEB/templates;${CMAKE_CURRENT_SOURCE_DIR}/DEB/preinst;${CMAKE_CURRENT_SOURCE_DIR}/DEB/postinst;${CMAKE_CURRENT_SOURCE_DIR}/DEB/postrm")
+  if(NOT GREENGAGE_MAJOR_VERSION)
+    set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/DEB/config;${CMAKE_CURRENT_SOURCE_DIR}/DEB/templates;${CMAKE_CURRENT_SOURCE_DIR}/DEB/preinst;${CMAKE_CURRENT_SOURCE_DIR}/DEB/postinst;${CMAKE_CURRENT_SOURCE_DIR}/DEB/postrm")
+  endif()
 endif()
 include(CPack)
 
