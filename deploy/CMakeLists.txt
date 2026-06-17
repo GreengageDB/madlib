@@ -77,7 +77,9 @@ set(CPACK_RPM_USER_BINARY_SPECFILE ${CMAKE_CURRENT_SOURCE_DIR}/madlib.spec.in)
 
 # -- Set settings for specific package generators ------------------------------
 
-add_subdirectory(PackageMaker)
+if(APPLE)
+    add_subdirectory(PackageMaker)
+endif()
 add_subdirectory(PGXN)
 add_subdirectory(RPM)
 add_subdirectory(DEB)

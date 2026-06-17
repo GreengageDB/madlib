@@ -1,0 +1,66 @@
+# .github/workflows/build_and_package.yml
+name: Build and Package in Docker
+
+on:
+  push:
+    branches: ['master']
+    tags: ['**']
+  pull_request:
+    branches: ['**']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os_version:
+          - '22.04'
+          - '24.04'
+        greengage_version:
+          - '6'
+          - '7'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ci/Dockerfile.ubuntu
+          push: false
+          tags: madlib:ubuntu${{ matrix.os_version }}-greengage${{ matrix.greengage_version }}
+          build-args: |
+            OS_VERSION=${{ matrix.os_version }}
+            GREENGAGE_VERSION=${{ matrix.greengage_version }}
+            GREENGAGE_REPO=https://storage.yandexcloud.net/greengage-repo
+
+      - name: Extract artifacts
+        run: |
+          mkdir -p artifacts
+          docker create --name temp-container madlib:ubuntu${{ matrix.os_version }}-greengage${{ matrix.greengage_version }}
+          docker cp temp-container:/home/gpadmin/deb-packages artifacts/
+          docker rm temp-container
+
+      - name: Upload deb packages
+        uses: actions/upload-artifact@v7
+        with:
+          name: madlib-deb-ubuntu${{ matrix.os_version }}-greengage${{ matrix.greengage_version }}
+          path: artifacts/deb-packages/
+
+      - name: Test deb package installation
+        uses: greengagedb/greengage-ci/.github/actions/tests/install/deb@v44
+        with:
+          test_docker: 'ubuntu:${{ matrix.os_version }}'
+          artifact_name: 'madlib-deb-ubuntu${{ matrix.os_version }}-greengage${{ matrix.greengage_version }}'
+          add_greengage_repo: true
+          greengage_repo_url: "https://storage.yandexcloud.net/greengage-repo"
+          verify_commands: dpkg -l madlib*
