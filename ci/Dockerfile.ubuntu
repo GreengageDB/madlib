@@ -7,7 +7,6 @@
 ARG OS_VERSION=22.04
 ARG GREENGAGE_VERSION=6
 ARG GREENGAGE_REPO=https://greengagedb.org
-ARG VERSION=""
 
 FROM ubuntu:${OS_VERSION} AS base
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -58,9 +57,14 @@ FROM base AS build
 ARG GREENGAGE_VERSION
 
 RUN mkdir deb-packages && chown gpadmin:gpadmin deb-packages
-# CMakeLists.txt creates symlinks via EXECUTE_PROCESS(ln) which bypasses DESTDIR —
-# the target directory must exist on the build system during packaging.
-RUN mkdir -p "/opt/greengagedb/greengage${GREENGAGE_VERSION}/madlib"
+# extension-install writes to $GPHOME — pre-create target dirs with gpadmin ownership
+RUN set -eux; \
+    . "/opt/greengagedb/greengage${GREENGAGE_VERSION}/greengage_path.sh"; \
+    mkdir -p "${GPHOME}/share/postgresql/madlib"; \
+    chown gpadmin:gpadmin \
+        "${GPHOME}/lib/postgresql" \
+        "${GPHOME}/share/postgresql/extension" \
+        "${GPHOME}/share/postgresql/madlib"
 COPY --chown=gpadmin:gpadmin . src/
 
 WORKDIR /home/gpadmin/src
@@ -68,13 +72,29 @@ USER gpadmin
 
 RUN set -eux; \
     . "/opt/greengagedb/greengage${GREENGAGE_VERSION}/greengage_path.sh"; \
-    PG_CONFIG="/opt/greengagedb/greengage${GREENGAGE_VERSION}/bin/pg_config"; \
+    PG_CONFIG="${GPHOME}/bin/pg_config"; \
     ./configure \
         "-DGREENGAGE_${GREENGAGE_VERSION}_PG_CONFIG=${PG_CONFIG}" \
-        "-DGREENGAGE_MAJOR_VERSION=${GREENGAGE_VERSION}" \
-        "-DCMAKE_INSTALL_PREFIX=/opt/greengagedb/greengage${GREENGAGE_VERSION}/madlib"; \
-    make -j"$(nproc)" package; \
-    cp build/*.deb /home/gpadmin/deb-packages/
+        "-DGREENGAGE_MAJOR_VERSION=${GREENGAGE_VERSION}"; \
+    make -j"$(nproc)" extension-install; \
+    \
+    PKGLIB_DIR=$("${PG_CONFIG}" --pkglibdir); \
+    SHARE_DIR=$("${PG_CONFIG}" --sharedir); \
+    GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0"); \
+    VERSION=$(echo "${GIT_TAG}" | sed 's/^[^0-9]*//'); \
+    STAGING=$(mktemp -d); \
+    mkdir -p "${STAGING}/DEBIAN" \
+             "${STAGING}${PKGLIB_DIR}" \
+             "${STAGING}${SHARE_DIR}/extension" \
+             "${STAGING}${SHARE_DIR}/madlib"; \
+    cp "${PKGLIB_DIR}/libmadlib.so"      "${STAGING}${PKGLIB_DIR}/"; \
+    cp "${SHARE_DIR}/extension/madlib"*  "${STAGING}${SHARE_DIR}/extension/"; \
+    cp -r "${SHARE_DIR}/madlib/modules"  "${STAGING}${SHARE_DIR}/madlib/"; \
+    printf 'Package: madlib%s\nVersion: %s\nArchitecture: amd64\nMaintainer: dev@madlib.apache.org\nDepends: greengage%s\nDescription: Apache MADlib extension for Greengage %s\n' \
+        "${GREENGAGE_VERSION}" "${VERSION}" "${GREENGAGE_VERSION}" "${GREENGAGE_VERSION}" \
+        > "${STAGING}/DEBIAN/control"; \
+    dpkg-deb --root-owner-group --build "${STAGING}" \
+        "/home/gpadmin/deb-packages/madlib${GREENGAGE_VERSION}_${VERSION}_amd64.deb"
 
 FROM base AS code
 COPY --chown=gpadmin:gpadmin . src/

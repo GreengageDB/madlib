@@ -42,14 +42,4 @@ set(CPACK_DEBIAN_PACKAGE_MAINTAINER "dev@madlib.apache.org" PARENT_SCOPE)
 # - Debian package name becomes madlib6 / madlib7 (lowercase, no hyphen)
 # - Depends is wired to the matching greengage6 / greengage7 package
 # - postinst/postrm are generated from .in templates — no debconf interaction
-if(GREENGAGE_MAJOR_VERSION)
-    set(CPACK_DEBIAN_PACKAGE_NAME    "madlib${GREENGAGE_MAJOR_VERSION}"    PARENT_SCOPE)
-    set(CPACK_DEBIAN_PACKAGE_DEPENDS "greengage${GREENGAGE_MAJOR_VERSION}" PARENT_SCOPE)
-    # CMAKE_INSTALL_PREFIX here is the value passed at configure time (before the Versions/ append
-    # in the main CMakeLists.txt). For Greengage builds this is /opt/greengagedb/greengageN/madlib.
-    set(CPACK_PACKAGING_INSTALL_PREFIX
-        "${CMAKE_INSTALL_PREFIX}/Versions/${MADLIB_VERSION_STRING}" PARENT_SCOPE)
-else()
-    set(CPACK_PACKAGING_INSTALL_PREFIX
-        "/usr/local/madlib/Versions/${MADLIB_VERSION_STRING}" PARENT_SCOPE)
-endif()
+set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local/madlib/Versions/${MADLIB_VERSION_STRING}" PARENT_SCOPE)
