@@ -57,14 +57,6 @@ FROM base AS build
 ARG GREENGAGE_VERSION
 
 RUN mkdir deb-packages && chown gpadmin:gpadmin deb-packages
-# extension-install writes to $GPHOME — pre-create target dirs with gpadmin ownership
-RUN set -eux; \
-    . "/opt/greengagedb/greengage${GREENGAGE_VERSION}/greengage_path.sh"; \
-    mkdir -p "${GPHOME}/share/postgresql/madlib"; \
-    chown gpadmin:gpadmin \
-        "${GPHOME}/lib/postgresql" \
-        "${GPHOME}/share/postgresql/extension" \
-        "${GPHOME}/share/postgresql/madlib"
 COPY --chown=gpadmin:gpadmin . src/
 
 WORKDIR /home/gpadmin/src
@@ -76,8 +68,8 @@ RUN set -eux; \
     ./configure \
         "-DGREENGAGE_${GREENGAGE_VERSION}_PG_CONFIG=${PG_CONFIG}" \
         "-DGREENGAGE_MAJOR_VERSION=${GREENGAGE_VERSION}"; \
-    make -j"$(nproc)" extension-install; \
-    \
+    make -j"$(nproc)" extension; \
+    BUILD_DIR="build/src/ports/greengage/${GREENGAGE_VERSION}"; \
     PKGLIB_DIR=$("${PG_CONFIG}" --pkglibdir); \
     SHARE_DIR=$("${PG_CONFIG}" --sharedir); \
     GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0"); \
@@ -87,9 +79,9 @@ RUN set -eux; \
              "${STAGING}${PKGLIB_DIR}" \
              "${STAGING}${SHARE_DIR}/extension" \
              "${STAGING}${SHARE_DIR}/madlib"; \
-    cp "${PKGLIB_DIR}/libmadlib.so"      "${STAGING}${PKGLIB_DIR}/"; \
-    cp "${SHARE_DIR}/extension/madlib"*  "${STAGING}${SHARE_DIR}/extension/"; \
-    cp -r "${SHARE_DIR}/madlib/modules"  "${STAGING}${SHARE_DIR}/madlib/"; \
+    cp "${BUILD_DIR}/lib/libmadlib.so"        "${STAGING}${PKGLIB_DIR}/"; \
+    cp "${BUILD_DIR}/extension/madlib"*        "${STAGING}${SHARE_DIR}/extension/"; \
+    cp -r "${BUILD_DIR}/modules"               "${STAGING}${SHARE_DIR}/madlib/"; \
     printf 'Package: madlib%s\nVersion: %s\nArchitecture: amd64\nMaintainer: dev@madlib.apache.org\nDepends: greengage%s\nDescription: Apache MADlib extension for Greengage %s\n' \
         "${GREENGAGE_VERSION}" "${VERSION}" "${GREENGAGE_VERSION}" "${GREENGAGE_VERSION}" \
         > "${STAGING}/DEBIAN/control"; \
