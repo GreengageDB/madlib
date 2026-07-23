@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+
+DH_VERBOSE = 1
+
+export DEB_BUILD_OPTIONS = nocheck
+
+GREENGAGE_VERSION ?= 6
+GPHOME ?= /opt/greengagedb/greengage$(GREENGAGE_VERSION)
+PG_CONFIG ?= $(GPHOME)/bin/pg_config
+PACKAGE = madlib$(GREENGAGE_VERSION)
+BUILD_PORT_DIR = build/src/ports/greengage/$(GREENGAGE_VERSION)
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	./configure \
+		"-DGREENGAGE_$(GREENGAGE_VERSION)_PG_CONFIG=$(PG_CONFIG)" \
+		"-DGREENGAGE_MAJOR_VERSION=$(GREENGAGE_VERSION)"
+
+override_dh_auto_build:
+	. $(GPHOME)/greengage_path.sh && \
+	$(MAKE) -j$$(nproc) extension
+
+override_dh_auto_install:
+	install -Dm 755 $(BUILD_PORT_DIR)/lib/libmadlib.so \
+		$(CURDIR)/debian/$(PACKAGE)$$($(PG_CONFIG) --pkglibdir)/libmadlib.so
+	install -d $(CURDIR)/debian/$(PACKAGE)$$($(PG_CONFIG) --sharedir)/extension
+	cp $(BUILD_PORT_DIR)/extension/madlib* \
+		$(CURDIR)/debian/$(PACKAGE)$$($(PG_CONFIG) --sharedir)/extension/
+	install -d $(CURDIR)/debian/$(PACKAGE)$$($(PG_CONFIG) --sharedir)/madlib
+	cp -r $(BUILD_PORT_DIR)/modules \
+		$(CURDIR)/debian/$(PACKAGE)$$($(PG_CONFIG) --sharedir)/madlib/
+
+override_dh_auto_test:
+	@echo "Skipping tests"
+
+override_dh_dwz:
+	@echo "Skipping debug symbols compression"

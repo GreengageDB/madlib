@@ -52,7 +52,6 @@ jobs:
           build-args: |
             OS_VERSION=${{ matrix.target_os_version }}
             GREENGAGE_VERSION=${{ matrix.greengage_version }}
-            GREENGAGE_REPO=https://storage.yandexcloud.net/greengage-repo
 
       - name: Extract artifacts
         run: |
@@ -73,5 +72,4 @@ jobs:
           test_docker: '${{ matrix.target_os }}:${{ matrix.target_os_version }}'
           artifact_name: 'deb-packages-madlib${{ matrix.greengage_version }}-${{ matrix.target_os }}${{ matrix.target_os_version }}'
           add_greengage_repo: true
-          greengage_repo_url: "https://storage.yandexcloud.net/greengage-repo"
           verify_commands: dpkg -l madlib*
