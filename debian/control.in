@@ -1,0 +1,19 @@
+Source: greengage@GREENGAGE_VERSION@-madlib
+Maintainer: Apache MADlib <dev@madlib.apache.org>
+Section: database
+Priority: optional
+Build-Depends: debhelper (>= 13), cmake, m4, build-essential
+Standards-Version: 4.6.0
+
+Package: greengage@GREENGAGE_VERSION@-madlib
+Architecture: any
+Depends: ${shlibs:Depends}, greengage@GREENGAGE_VERSION@
+Description: Apache MADlib - Scalable in-Database Analytics
+ Apache MADlib is an Open-Source Library for Scalable in-Database
+ Analytics. It provides data-parallel implementations of mathematical,
+ statistical and machine learning methods for structured and
+ unstructured data.
+ .
+ The MADlib mission: to foster widespread development of scalable
+ analytic skills, by harnessing efforts from commercial practice,
+ academic research, and open-source development.

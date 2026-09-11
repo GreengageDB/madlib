@@ -34,6 +34,12 @@ if(NOT CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
       set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "${arch}" PARENT_SCOPE)
 endif()
 
-set(CPACK_DEBIAN_PACKAGE_VERSION "${MADLIB_VERSION_STRING}" PARENT_SCOPE)
+set(CPACK_DEBIAN_PACKAGE_VERSION "${MADLIB_PACKAGE_VERSION}" PARENT_SCOPE)
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "dev@madlib.apache.org" PARENT_SCOPE)
+
+# When building against a specific Greengage major version (e.g. -DGREENGAGE_MAJOR_VERSION=6):
+# - Install prefix: /opt/greengagedb/greengageN/madlib  (CMAKE_INSTALL_PREFIX from Dockerfile)
+# - Debian package name becomes madlib6 / madlib7 (lowercase, no hyphen)
+# - Depends is wired to the matching greengage6 / greengage7 package
+# - postinst/postrm are generated from .in templates — no debconf interaction
 set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local/madlib/Versions/${MADLIB_VERSION_STRING}" PARENT_SCOPE)

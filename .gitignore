@@ -45,6 +45,12 @@ auto
 
 /Makefile
 .predictive
+
+# Generated during deb packaging (see deb.mk)
+/debian/control
+/debian/changelog
+/VERSION
+/deb-packages/
 .Rhistory
 eproject.cfg
 *.project.vim

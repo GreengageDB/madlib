@@ -1,0 +1,24 @@
+# Build artifacts
+/build*/
+/cmake-build-debug/
+*.so
+*.o
+*.pyc
+
+# === DOCKER SPECIFIC ===
+
+# Docker files
+Dockerfile*
+.dockerignore
+
+# CI-specific files not needed in the build context
+ci/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# IDE
+.idea/
+.vscode/
+*.swp
