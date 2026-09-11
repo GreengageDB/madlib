@@ -24,8 +24,12 @@ RUN set -eux; \
         cmake \
         curl \
         ca-certificates \
+        debhelper \
+        devscripts \
+        fakeroot \
         git \
         gnupg \
+        lsb-release \
         m4 \
         python3 \
         python3-dev \
@@ -62,31 +66,7 @@ COPY --chown=gpadmin:gpadmin . src/
 WORKDIR /home/gpadmin/src
 USER gpadmin
 
-RUN set -eux; \
-    . "/opt/greengagedb/greengage${GREENGAGE_VERSION}/greengage_path.sh"; \
-    PG_CONFIG="${GPHOME}/bin/pg_config"; \
-    ./configure \
-        "-DGREENGAGE_${GREENGAGE_VERSION}_PG_CONFIG=${PG_CONFIG}" \
-        "-DGREENGAGE_MAJOR_VERSION=${GREENGAGE_VERSION}"; \
-    make -j"$(nproc)" extension; \
-    BUILD_DIR="build/src/ports/greengage/${GREENGAGE_VERSION}"; \
-    PKGLIB_DIR=$("${PG_CONFIG}" --pkglibdir); \
-    SHARE_DIR=$("${PG_CONFIG}" --sharedir); \
-    GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0"); \
-    VERSION=$(echo "${GIT_TAG}" | sed 's/^[^0-9]*//'); \
-    STAGING=$(mktemp -d); \
-    mkdir -p "${STAGING}/DEBIAN" \
-             "${STAGING}${PKGLIB_DIR}" \
-             "${STAGING}${SHARE_DIR}/extension" \
-             "${STAGING}${SHARE_DIR}/madlib"; \
-    cp "${BUILD_DIR}/lib/libmadlib.so"        "${STAGING}${PKGLIB_DIR}/"; \
-    cp "${BUILD_DIR}/extension/madlib"*        "${STAGING}${SHARE_DIR}/extension/"; \
-    cp -r "${BUILD_DIR}/modules"               "${STAGING}${SHARE_DIR}/madlib/"; \
-    printf 'Package: madlib%s\nVersion: %s\nArchitecture: amd64\nMaintainer: dev@madlib.apache.org\nDepends: greengage%s\nDescription: Apache MADlib extension for Greengage %s\n' \
-        "${GREENGAGE_VERSION}" "${VERSION}" "${GREENGAGE_VERSION}" "${GREENGAGE_VERSION}" \
-        > "${STAGING}/DEBIAN/control"; \
-    dpkg-deb --root-owner-group --build "${STAGING}" \
-        "/home/gpadmin/deb-packages/madlib${GREENGAGE_VERSION}_${VERSION}_amd64.deb"
+RUN GREENGAGE_VERSION="${GREENGAGE_VERSION}" make -f deb.mk pkg VERSION
 
 FROM base AS code
 COPY --chown=gpadmin:gpadmin . src/
@@ -96,4 +76,5 @@ FROM base AS clean
 USER gpadmin
 
 COPY --from=code  /home/gpadmin/src          src
+COPY --from=build /home/gpadmin/src/VERSION  src
 COPY --from=build /home/gpadmin/deb-packages deb-packages

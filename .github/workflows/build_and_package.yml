@@ -38,16 +38,33 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+      # - name: Build Docker image
+      #   uses: docker/build-push-action@v7
+      #   with:
+      #     context: .
+      #     file: ci/Dockerfile.${{ matrix.target_os }}
+      #     push: false
+      #     tags: madlib:${{ matrix.target_os }}${{ matrix.target_os_version }}-greengage${{ matrix.greengage_version }}
+      #     build-args: |
+      #       OS_VERSION=${{ matrix.target_os_version }}
+      #       GREENGAGE_VERSION=${{ matrix.greengage_version }}
+
       - name: Build Docker image
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: ci/Dockerfile.${{ matrix.target_os }}
-          push: false
-          tags: madlib:${{ matrix.target_os }}${{ matrix.target_os_version }}-greengage${{ matrix.greengage_version }}
-          build-args: |
-            OS_VERSION=${{ matrix.target_os_version }}
-            GREENGAGE_VERSION=${{ matrix.greengage_version }}
+        run: |
+          case "${{ matrix.target_os }}" in
+            ubuntu)
+              mirror_ip=$(host azure.archive.ubuntu.com | awk '/has address/{print $NF; exit}')
+              if curl -sf --max-time 5 "http://${mirror_ip}/ubuntu/" > /dev/null; then
+                docker_options="--add-host=archive.ubuntu.com:${mirror_ip} --add-host=security.ubuntu.com:${mirror_ip}"
+              fi
+              ;;
+          esac
+          docker build $docker_options \
+            --build-arg OS_VERSION=${{ matrix.target_os_version }} \
+            --build-arg GREENGAGE_VERSION=${{ matrix.greengage_version }} \
+            --tag madlib:${{ matrix.target_os }}${{ matrix.target_os_version }}-greengage${{ matrix.greengage_version }} \
+            -f ci/Dockerfile.${{ matrix.target_os }} \
+            .
 
       - name: Extract artifacts
         run: |
@@ -68,4 +85,6 @@ jobs:
           test_docker: '${{ matrix.target_os }}:${{ matrix.target_os_version }}'
           artifact_name: 'deb-packages-madlib${{ matrix.greengage_version }}-${{ matrix.target_os }}${{ matrix.target_os_version }}'
           add_greengage_repo: true
-          verify_commands: dpkg -l madlib*
+          verify_commands: |
+            dpkg -l greengage${{ matrix.greengage_version }}-madlib &&
+            /opt/greengagedb/greengage${{ matrix.greengage_version }}-madlib --version

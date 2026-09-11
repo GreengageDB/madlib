@@ -7,7 +7,7 @@ export DEB_BUILD_OPTIONS = nocheck
 GREENGAGE_VERSION ?= 6
 GPHOME ?= /opt/greengagedb/greengage$(GREENGAGE_VERSION)
 PG_CONFIG ?= $(GPHOME)/bin/pg_config
-PACKAGE = madlib$(GREENGAGE_VERSION)
+PACKAGE = greengage$(GREENGAGE_VERSION)-madlib
 BUILD_PORT_DIR = build/src/ports/greengage/$(GREENGAGE_VERSION)
 
 %:
