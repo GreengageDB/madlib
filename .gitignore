@@ -45,6 +45,10 @@ auto
 
 /Makefile
 .predictive
+
+# Packages
+/Package/
+/.debuilder.lock
 .Rhistory
 eproject.cfg
 *.project.vim

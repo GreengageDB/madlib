@@ -1,4 +1,6 @@
-## How to run tests
+# HOWTO
+
+## Run tests
 
 Greengage 6:
 ```bash
@@ -32,3 +34,27 @@ docker exec madlib su -p postgres madlib/ci/test.bash install-check
 docker exec madlib su -p postgres madlib/ci/test.bash dev-check
 docker exec madlib su -p postgres madlib/ci/test.bash unit-test
 ```
+
+## Build package
+
+Greengage 6 (default):
+
+- Ubuntu 22.04 (default)
+
+    ```bash
+    ci/build_in_docker_local.sh
+    ```
+
+- Ubuntu 24.04:
+
+    ```bash
+    ci/build_in_docker_local.sh 6 24.04
+    ```
+
+Greengage 7:
+
+- Ubuntu 22.04 (default):
+
+    ```bash
+    ci/build_in_docker_local.sh 7
+    ```

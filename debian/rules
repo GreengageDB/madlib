@@ -1,0 +1,60 @@
+#!/usr/bin/make -f
+# debian/rules
+
+DH_VERBOSE = 1
+
+# GP_MAJORVERSION is required for package builds
+ifndef GP_MAJORVERSION
+$(error GP_MAJORVERSION is not set (expected e.g. GP_MAJORVERSION=6))
+endif
+
+# PG_HOME / PG_CONFIG: env value if non-empty, otherwise default.
+PG_HOME   := $(or $(strip $(PG_HOME)),/opt/greengagedb/greengage$(GP_MAJORVERSION))
+PG_CONFIG := $(or $(strip $(PG_CONFIG)),$(PG_HOME)/bin/pg_config)
+
+# Ask pg_config who it is. Empty output = not runnable or not Greengage.
+PG_CONFIG_MAJOR := $(shell $(PG_CONFIG) --gp_version 2>/dev/null \
+    | sed -n 's/^Greengage \([0-9][0-9]*\).*/\1/p')
+
+ifeq ($(strip $(PG_CONFIG_MAJOR)),)
+$(error $(PG_CONFIG) is not a usable Greengage pg_config \
+        (no "Greengage <major>" in --gp_version output))
+endif
+
+ifneq ($(PG_CONFIG_MAJOR),$(GP_MAJORVERSION))
+$(error $(PG_CONFIG) reports Greengage $(PG_CONFIG_MAJOR), \
+        but GP_MAJORVERSION=$(GP_MAJORVERSION))
+endif
+
+export DEB_BUILD_OPTIONS = nocheck
+
+BUILD_DIR      := build
+BUILD_PORT_DIR := $(BUILD_DIR)/src/ports/greengage/$(GP_MAJORVERSION)
+DESTDIR        := $(CURDIR)/debian/tmp
+PKGLIB_DIR     := $(DESTDIR)$(shell $(PG_CONFIG) --pkglibdir)
+SHARE_DIR      := $(DESTDIR)$(shell $(PG_CONFIG) --sharedir)
+
+%:
+	dh $@ --buildsystem=cmake --builddirectory=$(BUILD_DIR)
+
+override_dh_auto_configure:
+	@test -x "$(PG_CONFIG)" || { echo "pg_config not found or not executable at $(PG_CONFIG)"; exit 1; }
+	@echo "=== GP$(GP_MAJORVERSION) ==="
+	@sed 's|@PG_HOME_REL@|$(PG_HOME:/%=%)|g' debian/install.in > debian/install
+	dh_auto_configure -- \
+		-DGREENGAGE_$(GP_MAJORVERSION)_PG_CONFIG=$(PG_CONFIG) \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo
+
+# Only the CREATE EXTENSION flavour is packaged; `make install` would lay
+# out the madpack tree (/usr/local/madlib) instead.
+override_dh_auto_build:
+	dh_auto_build -- extension
+
+# extension-install copies straight into the live pg_config dirs and has
+# no DESTDIR support, so mirror its layout into debian/tmp by hand.
+override_dh_auto_install:
+	install -Dm 644 $(BUILD_PORT_DIR)/lib/libmadlib.so $(PKGLIB_DIR)/libmadlib.so
+	install -d $(SHARE_DIR)/extension $(SHARE_DIR)/madlib
+	install -m 644 $(BUILD_PORT_DIR)/extension/madlib.control \
+		$(BUILD_PORT_DIR)/extension/madlib--*.sql $(SHARE_DIR)/extension/
+	cp -r $(BUILD_PORT_DIR)/modules $(SHARE_DIR)/madlib/
